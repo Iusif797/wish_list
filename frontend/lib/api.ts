@@ -15,6 +15,19 @@ export async function getToken(): Promise<string | null> {
   return localStorage.getItem("token");
 }
 
+const PROD_SPINUP_MS = 70000;
+
+async function fetchWithTimeout(url: string, opts: RequestInit, timeoutMs: number): Promise<Response> {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...opts, signal: ctrl.signal });
+    return res;
+  } finally {
+    clearTimeout(id);
+  }
+}
+
 export async function api<T>(
   path: string,
   opts: RequestInit = {}
@@ -25,20 +38,32 @@ export async function api<T>(
     ...(opts.headers as Record<string, string>),
   };
   if (token) headers["Authorization"] = `Bearer ${token}`;
-  let res: Response;
-  try {
-    res = await fetch(getApiUrl(path), { ...opts, headers });
-  } catch (e) {
-    throw new Error(
-      "Сервер недоступен. Убедитесь, что бэкенд запущен (uvicorn app.main:app --reload в папке backend)."
-    );
+  const url = getApiUrl(path);
+  const isProd = typeof window !== "undefined" && !window.location.hostname.includes("localhost");
+  const timeout = isProd ? PROD_SPINUP_MS : 30000;
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetchWithTimeout(url, { ...opts, headers }, timeout);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        const detail = typeof err.detail === "string" ? err.detail : Array.isArray(err.detail) ? err.detail.map((x: { msg?: string }) => x.msg).join(", ") : res.statusText;
+        throw new Error(detail || res.statusText);
+      }
+      return res.json();
+    } catch (e) {
+      lastErr = e;
+      if (attempt === 0 && isProd) {
+        await new Promise((r) => setTimeout(r, 3000));
+        continue;
+      }
+      const msg = isProd
+        ? "Сервер временно недоступен. Подождите минуту и попробуйте снова."
+        : "Сервер недоступен. Убедитесь, что бэкенд запущен (uvicorn app.main:app --reload в папке backend).";
+      throw new Error(msg);
+    }
   }
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    const detail = typeof err.detail === "string" ? err.detail : Array.isArray(err.detail) ? err.detail.map((x: { msg?: string }) => x.msg).join(", ") : res.statusText;
-    throw new Error(detail || res.statusText);
-  }
-  return res.json();
+  throw lastErr;
 }
 
 export function getAnonymousToken(): string {

@@ -62,21 +62,21 @@ export default function PublicWishlistPage() {
   }, [slug, mutate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      <header className="sticky top-0 z-50 glass border-b border-slate-200/60">
+    <div className="min-h-screen">
+      <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <img src="/logo.png" alt="Wishlist" className="w-8 h-8 rounded-xl shadow-glow" />
-            <span className="text-lg font-bold text-slate-900">Wishlist</span>
+            <span className="text-lg font-bold text-slate-900 dark:text-white">Wishlist</span>
           </Link>
-          <Link href="/login" className="text-sm font-semibold text-primary-600 hover:text-primary-700 px-4 py-2 rounded-xl hover:bg-primary-50 transition-all">
+          <Link href="/login" className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all">
             Sign in
           </Link>
         </div>
       </header>
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {error && (
-          <div className="p-6 bg-red-50 border border-red-100 text-red-700 rounded-2xl animate-scale-in">Wishlist not found.</div>
+          <div className="p-6 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-2xl animate-scale-in">Wishlist not found.</div>
         )}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
@@ -86,15 +86,15 @@ export default function PublicWishlistPage() {
         {wishlist && (
           <div className="animate-fade-in">
             <div className="mb-8">
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{wishlist.name}</h1>
-              <p className="text-slate-500 mt-1">{wishlist.occasion}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{wishlist.name}</h1>
+              <p className="text-slate-500 dark:text-slate-400 mt-1">{wishlist.occasion}</p>
             </div>
             {wishlist.items.length === 0 ? (
               <div className="glass-card rounded-3xl p-8 sm:p-16 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-primary-50 dark:bg-primary-950/30 flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">🎁</span>
                 </div>
-                <p className="text-slate-600 text-lg">No items in this wishlist yet.</p>
+                <p className="text-slate-600 dark:text-slate-400 text-lg">No items in this wishlist yet.</p>
               </div>
             ) : (
               <div className="space-y-5">
@@ -215,7 +215,7 @@ function PublicItemCard({
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
     >
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-        <div className="w-24 h-24 flex-shrink-0 rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 overflow-hidden relative">
+        <div className="w-24 h-24 flex-shrink-0 rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700 overflow-hidden relative">
           {item.image_url && (
             <img
               src={item.image_url}
@@ -224,44 +224,44 @@ function PublicItemCard({
               onError={(e) => e.currentTarget.style.display = "none"}
             />
           )}
-          <div className="w-full h-full flex items-center justify-center text-slate-300 text-3xl">
+          <div className="w-full h-full flex items-center justify-center text-slate-300 dark:text-slate-600 text-3xl">
             🎁
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-slate-900">{item.name}</h3>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary-600 hover:text-primary-700 hover:underline truncate block mt-0.5">
+          <h3 className="font-bold text-slate-900 dark:text-white">{item.name}</h3>
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:underline truncate block mt-0.5">
             {item.url}
           </a>
-          <p className="text-slate-600 mt-1.5 font-semibold">{item.price} ₽</p>
+          <p className="text-slate-600 dark:text-slate-400 mt-1.5 font-semibold">{item.price} ₽</p>
           {hasTarget && (
             <div className="mt-3">
-              <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div className="h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-primary-500 to-emerald-400 rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(item.progress * 100, 100)}%` }}
                 />
               </div>
-              <p className="text-xs text-slate-500 mt-1.5 font-medium">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 font-medium">
                 {item.total_contributed} / {item.target_amount} ₽
               </p>
             </div>
           )}
           {item.reserved && !item.reserved_by_me && (
-            <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-lg">
+            <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold rounded-lg">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
               Reserved
             </span>
           )}
           {item.reserved_by_me && (
-            <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-primary-50 text-primary-700 text-xs font-semibold rounded-lg">
+            <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-primary-50 dark:bg-primary-950/30 text-primary-700 dark:text-primary-400 text-xs font-semibold rounded-lg">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
               You reserved
             </span>
           )}
         </div>
       </div>
-      {error && <p className="text-red-600 text-sm mt-3 font-medium animate-scale-in">{error}</p>}
+      {error && <p className="text-red-600 dark:text-red-400 text-sm mt-3 font-medium animate-scale-in">{error}</p>}
       <div className="mt-4 flex flex-wrap gap-3">
         {canReserve && (
           <button
@@ -276,7 +276,7 @@ function PublicItemCard({
           <button
             onClick={handleUnreserve}
             disabled={loading}
-            className="px-5 py-2.5 border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 hover:border-slate-300 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5"
+            className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5"
           >
             {loading ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Cancel reservation"}
           </button>
@@ -290,7 +290,7 @@ function PublicItemCard({
               placeholder="Amount (₽)"
               step="0.01"
               min="0"
-              className="w-full sm:w-28 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white/80 focus:bg-white transition-colors"
+              className="w-full sm:w-28 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
             />
             <button
               type="submit"

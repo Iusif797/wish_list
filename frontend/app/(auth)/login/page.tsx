@@ -34,16 +34,16 @@ export default function LoginPage() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{ backgroundImage: "url(/wishlist-bg.png)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40 dark:from-slate-950/70 dark:via-slate-950/30 dark:to-slate-950/70" />
       <div className="relative z-10 w-full max-w-md animate-slide-up">
         <Link href="/" className="flex items-center justify-center gap-2.5 mb-8 group">
           <img src="/logo.png" alt="Wishlist" className="w-10 h-10 rounded-xl shadow-glow" />
-          <span className="text-2xl sm:text-3xl font-bold text-slate-900">Wishlist</span>
+          <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Wishlist</span>
         </Link>
         <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
-          <h2 className="text-xl font-bold mb-6 text-slate-900">Sign in</h2>
+          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Sign in</h2>
           {error && (
-            <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm animate-scale-in space-y-2">
+            <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm animate-scale-in space-y-2">
               <p>{error}</p>
               {error.includes("недоступен") && (
                 <a
@@ -59,23 +59,23 @@ export default function LoginPage() {
           )}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/80 focus:bg-white transition-colors"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/80 focus:bg-white transition-colors"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function LoginPage() {
           >
             {loading ? <span className="spinner border-white/30 border-t-white" /> : "Sign in"}
           </button>
-          <p className="mt-5 text-center text-sm text-slate-500">
+          <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
             Don&apos;t have an account?{" "}
             <Link href="/register" className="text-primary-600 hover:text-primary-700 font-semibold">
               Sign up
@@ -94,7 +94,7 @@ export default function LoginPage() {
           </p>
         </form>
         <p className="mt-6 text-center">
-          <Link href="/" className="text-slate-400 hover:text-slate-600 text-sm transition-colors">Back to home</Link>
+          <Link href="/" className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 text-sm transition-colors">Back to home</Link>
         </p>
       </div>
     </div>

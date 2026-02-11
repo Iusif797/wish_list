@@ -37,42 +37,42 @@ export default function NewWishlistPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      <header className="sticky top-0 z-50 glass border-b border-slate-200/60">
+    <div className="min-h-screen">
+      <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
-          <Link href="/dashboard" className="text-slate-500 hover:text-slate-900 text-sm font-medium flex items-center gap-1 transition-colors w-fit">
+          <Link href="/dashboard" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium flex items-center gap-1 transition-colors w-fit">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
             Back
           </Link>
         </div>
       </header>
       <main className="max-w-lg mx-auto px-4 py-10 animate-slide-up">
-        <h1 className="text-2xl font-bold text-slate-900 mb-6">New wishlist</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">New wishlist</h1>
         <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
           {error && (
-            <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm animate-scale-in">{error}</div>
+            <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm animate-scale-in">{error}</div>
           )}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Name</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="e.g. Birthday 2025"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/80 focus:bg-white transition-colors"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Occasion</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Occasion</label>
               <input
                 type="text"
                 value={occasion}
                 onChange={(e) => setOccasion(e.target.value)}
                 required
                 placeholder="e.g. Birthday, New Year"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/80 focus:bg-white transition-colors"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
           </div>

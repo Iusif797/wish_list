@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     google_client_id: str = ""
     google_client_secret: str = ""
     cors_origins: str = Field(default="http://localhost:3000,http://127.0.0.1:3000", description="Comma-separated CORS origins")
+    cors_allow_all: bool = Field(default=False, description="Set to true to allow all origins (for debugging)")
     redis_url: str | None = None
 
     class Config:

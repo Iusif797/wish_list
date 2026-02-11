@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Wishlist API", lifespan=lifespan)
 
 origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
-allow_all = getattr(settings, "cors_allow_all", False)
+allow_all = getattr(settings, "cors_allow_all", False) or "*" in origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"] if allow_all else origins,

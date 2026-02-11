@@ -1,0 +1,19 @@
+from pydantic_settings import BaseSettings
+
+
+class Settings(BaseSettings):
+    database_url: str = "postgresql+asyncpg://user:pass@localhost:5432/wishlist"
+    jwt_secret: str = "change-me-in-production"
+    jwt_algorithm: str = "HS256"
+    jwt_expire_minutes: int = 60 * 24 * 7
+    google_client_id: str = ""
+    google_client_secret: str = ""
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    redis_url: str | None = None
+
+    class Config:
+        env_file = ".env"
+        extra = "ignore"
+
+
+settings = Settings()

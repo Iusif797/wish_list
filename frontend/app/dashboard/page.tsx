@@ -34,7 +34,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       <Header />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-        <div className="flex items-center justify-between mb-8 animate-fade-in">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 animate-fade-in">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">My wishlists</h1>
             <p className="text-slate-500 mt-1 text-sm">Manage and share your wishlists</p>
@@ -58,7 +58,7 @@ export default function DashboardPage() {
           </div>
         )}
         {wishlists && wishlists.length === 0 && (
-          <div className="glass-card rounded-3xl p-16 text-center animate-slide-up">
+          <div className="glass-card rounded-3xl p-8 sm:p-16 text-center animate-slide-up">
             <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-6">
               <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" /></svg>
             </div>

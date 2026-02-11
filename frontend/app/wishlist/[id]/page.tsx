@@ -78,15 +78,15 @@ export default function WishlistPage() {
               <p className="text-slate-500 mt-1">{wishlist.occasion}</p>
               <div className="mt-5 p-4 bg-gradient-to-r from-primary-50 to-emerald-50 rounded-2xl border border-primary-100/50">
                 <p className="text-sm font-semibold text-slate-700 mb-2">Share link</p>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     readOnly
                     value={shareUrl}
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-primary-200/50 bg-white text-sm font-mono"
+                    className="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl border border-primary-200/50 bg-white text-sm font-mono truncate"
                   />
                   <button
                     onClick={handleCopy}
-                    className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white text-sm font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow min-w-[80px]"
+                    className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white text-sm font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow shrink-0"
                   >
                     {copied ? "Copied!" : "Copy"}
                   </button>
@@ -104,7 +104,7 @@ export default function WishlistPage() {
               </Link>
             </div>
             {wishlist.items.length === 0 ? (
-              <div className="glass-card rounded-3xl p-16 text-center">
+              <div className="glass-card rounded-3xl p-8 sm:p-16 text-center">
                 <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">🎁</span>
                 </div>

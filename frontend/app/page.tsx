@@ -8,7 +8,7 @@ export default function HomePage() {
         style={{ backgroundImage: "url(/wishlist-bg.png)" }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-400/10 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] sm:w-[600px] h-[90vw] sm:h-[600px] bg-primary-400/10 rounded-full blur-3xl" />
       <div className="relative z-10 flex flex-col items-center animate-fade-in">
         <img src="/logo.png" alt="Wishlist" className="w-16 h-16 rounded-2xl shadow-glow-lg mb-6" />
         <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 mb-4 tracking-tight">
@@ -31,7 +31,7 @@ export default function HomePage() {
             Create account
           </Link>
         </div>
-        <p className="mt-14 text-sm text-slate-500">
+        <p className="mt-8 sm:mt-14 text-sm text-slate-500">
           Have a link? Enter it in the address bar to view a shared wishlist.
         </p>
       </div>

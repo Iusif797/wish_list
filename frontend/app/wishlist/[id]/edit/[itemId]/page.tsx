@@ -103,18 +103,18 @@ export default function EditItemPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1.5">Product URL</label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="url"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-xl border border-slate-200 bg-white/80 focus:bg-white transition-colors"
+                  className="flex-1 min-w-0 px-4 py-3 rounded-xl border border-slate-200 bg-white/80 focus:bg-white transition-colors"
                 />
                 <button
                   type="button"
                   onClick={handleFetchMeta}
                   disabled={fetching || !url.trim()}
-                  className="px-4 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 disabled:opacity-50 transition-colors flex items-center gap-1.5"
+                  className="px-4 py-3 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5 shrink-0"
                 >
                   {fetching ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Fetch"}
                 </button>

@@ -90,7 +90,7 @@ export default function PublicWishlistPage() {
               <p className="text-slate-500 mt-1">{wishlist.occasion}</p>
             </div>
             {wishlist.items.length === 0 ? (
-              <div className="glass-card rounded-3xl p-16 text-center">
+              <div className="glass-card rounded-3xl p-8 sm:p-16 text-center">
                 <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">🎁</span>
                 </div>
@@ -282,7 +282,7 @@ function PublicItemCard({
           </button>
         )}
         {canContribute && (
-          <form onSubmit={handleContribute} className="flex gap-2 items-center">
+          <form onSubmit={handleContribute} className="flex flex-wrap gap-2 items-center">
             <input
               type="number"
               value={contribAmount}
@@ -290,12 +290,12 @@ function PublicItemCard({
               placeholder="Amount (₽)"
               step="0.01"
               min="0"
-              className="w-28 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white/80 focus:bg-white transition-colors"
+              className="w-full sm:w-28 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white/80 focus:bg-white transition-colors"
             />
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2.5 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5"
+              className="px-5 py-2.5 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5 w-full sm:w-auto justify-center"
             >
               {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Contribute"}
             </button>

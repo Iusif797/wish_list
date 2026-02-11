@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
+import { getApiUrl } from "@/lib/api";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -40,7 +41,19 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
           <h2 className="text-xl font-semibold mb-6">Create account</h2>
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm">{error}</div>
+            <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-700 text-sm space-y-2">
+              <p>{error}</p>
+              {error.includes("недоступен") && (
+                <a
+                  href={getApiUrl("/health")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-primary-600 hover:underline text-xs"
+                >
+                  Открыть в новой вкладке (подождите 1 мин) →
+                </a>
+              )}
+            </div>
           )}
           <div className="space-y-4">
             <div>
@@ -86,7 +99,7 @@ export default function RegisterPage() {
             type="button"
             onClick={async () => {
               try {
-                const r = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/auth/oauth/google`);
+                const r = await fetch(getApiUrl("/auth/oauth/google"));
                 const { url } = await r.json();
                 if (url) window.location.href = url;
               } catch {}

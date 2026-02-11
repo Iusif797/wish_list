@@ -24,6 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/api/health")
+def health():
+    return {"ok": True}
+
 app.include_router(auth.router, prefix="/api")
 app.include_router(wishlists.router, prefix="/api")
 app.include_router(public.router, prefix="/api")

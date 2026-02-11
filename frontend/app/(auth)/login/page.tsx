@@ -34,7 +34,7 @@ export default function LoginPage() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{ backgroundImage: "url(/wishlist-bg.png)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40 dark:from-slate-950/70 dark:via-slate-950/30 dark:to-slate-950/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40 dark:from-slate-950/90 dark:via-slate-950/80 dark:to-slate-950/90" />
       <div className="relative z-10 w-full max-w-md animate-slide-up">
         <Link href="/" className="flex items-center justify-center gap-2.5 mb-8 group">
           <img src="/logo.png" alt="Wishlist" className="w-10 h-10 rounded-xl shadow-glow" />

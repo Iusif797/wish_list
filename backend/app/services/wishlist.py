@@ -51,6 +51,8 @@ async def add_item(db: AsyncSession, wishlist_id: UUID, user_id: UUID, data: Wis
     item = WishlistItem(wishlist_id=wishlist_id, **data.model_dump())
     db.add(item)
     await db.flush()
+    # Eagerly load relationships needed by _owner_item() to avoid lazy-load in async context
+    await db.refresh(item, attribute_names=["reservations", "contributions"])
     return item
 
 
@@ -66,6 +68,7 @@ async def update_item(db: AsyncSession, wishlist_id: UUID, item_id: UUID, user_i
     for k, v in data.model_dump(exclude_unset=True).items():
         setattr(item, k, v)
     await db.flush()
+    await db.refresh(item, attribute_names=["reservations", "contributions"])
     return item
 
 

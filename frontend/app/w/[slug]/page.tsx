@@ -62,42 +62,55 @@ export default function PublicWishlistPage() {
   }, [slug, mutate]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-slate-900">Wishlist</Link>
-          <Link href="/login" className="text-sm text-slate-600 hover:text-slate-900">Sign in</Link>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      <header className="sticky top-0 z-50 glass border-b border-slate-200/60">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <img src="/logo.png" alt="Wishlist" className="w-8 h-8 rounded-xl shadow-glow" />
+            <span className="text-lg font-bold text-slate-900">Wishlist</span>
+          </Link>
+          <Link href="/login" className="text-sm font-semibold text-primary-600 hover:text-primary-700 px-4 py-2 rounded-xl hover:bg-primary-50 transition-all">
+            Sign in
+          </Link>
         </div>
       </header>
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {error && (
-          <div className="p-6 bg-red-50 text-red-700 rounded-xl">Wishlist not found.</div>
+          <div className="p-6 bg-red-50 border border-red-100 text-red-700 rounded-2xl animate-scale-in">Wishlist not found.</div>
         )}
-        {isLoading && <div className="text-slate-500 py-12">Loading...</div>}
+        {isLoading && (
+          <div className="flex items-center justify-center py-20">
+            <span className="spinner border-primary-500/30 border-t-primary-500 w-8 h-8" />
+          </div>
+        )}
         {wishlist && (
-          <>
+          <div className="animate-fade-in">
             <div className="mb-8">
-              <h1 className="text-2xl font-bold text-slate-900">{wishlist.name}</h1>
-              <p className="text-slate-600 mt-1">{wishlist.occasion}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">{wishlist.name}</h1>
+              <p className="text-slate-500 mt-1">{wishlist.occasion}</p>
             </div>
             {wishlist.items.length === 0 ? (
-              <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-                <p className="text-slate-600">No items in this wishlist yet.</p>
+              <div className="glass-card rounded-3xl p-16 text-center">
+                <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center mx-auto mb-6">
+                  <span className="text-3xl">🎁</span>
+                </div>
+                <p className="text-slate-600 text-lg">No items in this wishlist yet.</p>
               </div>
             ) : (
-              <div className="space-y-6">
-                {wishlist.items.map((item) => (
+              <div className="space-y-5">
+                {wishlist.items.map((item, i) => (
                   <PublicItemCard
                     key={item.id}
                     item={item}
                     slug={slug}
                     anonToken={anonToken}
                     onUpdate={mutate}
+                    index={i}
                   />
                 ))}
               </div>
             )}
-          </>
+          </div>
         )}
       </main>
     </div>
@@ -109,11 +122,13 @@ function PublicItemCard({
   slug,
   anonToken,
   onUpdate,
+  index,
 }: {
   item: WishlistItemPublic;
   slug: string;
   anonToken: string;
   onUpdate: () => void;
+  index: number;
 }) {
   const [contribAmount, setContribAmount] = useState("");
   const [loading, setLoading] = useState(false);
@@ -195,9 +210,12 @@ function PublicItemCard({
   const canContribute = hasTarget && item.progress < 1;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
+    <div
+      className="glass-card rounded-2xl p-5 sm:p-6 animate-slide-up hover-lift"
+      style={{ animationDelay: `${index * 60}ms`, animationFillMode: "both" }}
+    >
       <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-        <div className="w-24 h-24 flex-shrink-0 rounded-lg bg-slate-100 overflow-hidden relative">
+        <div className="w-24 h-24 flex-shrink-0 rounded-xl bg-gradient-to-br from-slate-100 to-slate-50 overflow-hidden relative">
           {item.image_url && (
             <img
               src={item.image_url}
@@ -206,55 +224,61 @@ function PublicItemCard({
               onError={(e) => e.currentTarget.style.display = "none"}
             />
           )}
-          <div className="w-full h-full flex items-center justify-center text-slate-400 text-2xl">
+          <div className="w-full h-full flex items-center justify-center text-slate-300 text-3xl">
             🎁
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-slate-900">{item.name}</h3>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary-600 hover:underline truncate block">
+          <h3 className="font-bold text-slate-900">{item.name}</h3>
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary-600 hover:text-primary-700 hover:underline truncate block mt-0.5">
             {item.url}
           </a>
-          <p className="text-slate-600 mt-1">{item.price} ₽</p>
+          <p className="text-slate-600 mt-1.5 font-semibold">{item.price} ₽</p>
           {hasTarget && (
             <div className="mt-3">
-              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-primary-500 rounded-full transition"
+                  className="h-full bg-gradient-to-r from-primary-500 to-emerald-400 rounded-full transition-all duration-500"
                   style={{ width: `${Math.min(item.progress * 100, 100)}%` }}
                 />
               </div>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 mt-1.5 font-medium">
                 {item.total_contributed} / {item.target_amount} ₽
               </p>
             </div>
           )}
           {item.reserved && !item.reserved_by_me && (
-            <span className="inline-block mt-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded">Reserved</span>
+            <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-lg">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+              Reserved
+            </span>
           )}
           {item.reserved_by_me && (
-            <span className="inline-block mt-2 px-2 py-0.5 bg-primary-100 text-primary-800 text-xs rounded">You reserved</span>
+            <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-primary-50 text-primary-700 text-xs font-semibold rounded-lg">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
+              You reserved
+            </span>
           )}
         </div>
       </div>
-      {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+      {error && <p className="text-red-600 text-sm mt-3 font-medium animate-scale-in">{error}</p>}
       <div className="mt-4 flex flex-wrap gap-3">
         {canReserve && (
           <button
             onClick={handleReserve}
             disabled={loading}
-            className="px-4 py-2 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 disabled:opacity-50 text-sm"
+            className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 text-sm shadow-glow transition-all flex items-center gap-1.5"
           >
-            Reserve this gift
+            {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Reserve this gift"}
           </button>
         )}
         {canUnreserve && (
           <button
             onClick={handleUnreserve}
             disabled={loading}
-            className="px-4 py-2 border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 disabled:opacity-50 text-sm"
+            className="px-5 py-2.5 border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-50 hover:border-slate-300 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5"
           >
-            Cancel reservation
+            {loading ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Cancel reservation"}
           </button>
         )}
         {canContribute && (
@@ -266,14 +290,14 @@ function PublicItemCard({
               placeholder="Amount (₽)"
               step="0.01"
               min="0"
-              className="w-28 px-3 py-2 rounded-lg border border-slate-300 text-sm"
+              className="w-28 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white/80 focus:bg-white transition-colors"
             />
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-slate-800 text-white font-medium rounded-lg hover:bg-slate-900 disabled:opacity-50 text-sm"
+              className="px-5 py-2.5 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5"
             >
-              Contribute
+              {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Contribute"}
             </button>
           </form>
         )}

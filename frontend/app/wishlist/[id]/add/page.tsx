@@ -37,8 +37,8 @@ export default function AddItemPage() {
       setName(res.title);
       if (res.image_url) setImageUrl(res.image_url);
       if (res.price != null) setPrice(String(res.price));
-    } catch {
-      setError("Could not fetch product info");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not fetch product info");
     } finally {
       setFetching(false);
     }

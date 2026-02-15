@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import useSWR from "swr";
 import { useAuth } from "@/lib/auth";
 import { Header } from "@/components/Header";
-import { api } from "@/lib/api";
+import { api, getWsUrl } from "@/lib/api";
 
 interface WishlistItemOwner {
   id: string;
@@ -43,6 +43,16 @@ export default function WishlistPage() {
   useEffect(() => {
     if (!authLoading && !user) router.push("/login");
   }, [authLoading, user, router]);
+
+  useEffect(() => {
+    if (!wishlist?.slug) return;
+    const wsUrl = getWsUrl(`/ws/wishlist/${wishlist.slug}`);
+    const url = wsUrl.startsWith("http") ? wsUrl.replace(/^http/, "ws") : wsUrl;
+    const ws = new WebSocket(url);
+    ws.onmessage = () => mutate();
+    ws.onerror = () => ws.close();
+    return () => ws.close();
+  }, [wishlist?.slug, mutate]);
 
   if (authLoading) return null;
   if (!wishlist && !isLoading && !error) return null;

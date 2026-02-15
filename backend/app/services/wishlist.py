@@ -4,6 +4,7 @@ from uuid import UUID
 from sqlalchemy import select, func, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
+from sqlalchemy.schema import UniqueConstraint
 
 from app.models.wishlist import Wishlist, WishlistItem, Reservation, Contribution
 from app.schemas.wishlist import WishlistItemCreate, WishlistItemUpdate
@@ -74,13 +75,18 @@ async def update_item(db: AsyncSession, wishlist_id: UUID, item_id: UUID, user_i
 
 async def delete_item(db: AsyncSession, wishlist_id: UUID, item_id: UUID, user_id: UUID) -> bool:
     result = await db.execute(
-        select(WishlistItem).join(Wishlist).where(
+        select(WishlistItem)
+        .options(selectinload(WishlistItem.contributions))
+        .join(Wishlist)
+        .where(
             WishlistItem.id == item_id, Wishlist.id == wishlist_id, Wishlist.user_id == user_id
         )
     )
     item = result.scalar_one_or_none()
     if not item:
         return False
+    if item.contributions:
+        raise ValueError("Cannot delete item with contributions")
     await db.delete(item)
     return True
 

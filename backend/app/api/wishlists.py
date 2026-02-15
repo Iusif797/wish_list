@@ -116,7 +116,10 @@ async def update_item(wishlist_id: UUID, item_id: UUID, data: WishlistItemUpdate
 
 @router.delete("/{wishlist_id}/items/{item_id}")
 async def delete_item(wishlist_id: UUID, item_id: UUID, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
-    ok = await wishlist_service.delete_item(db, wishlist_id, item_id, user.id)
+    try:
+        ok = await wishlist_service.delete_item(db, wishlist_id, item_id, user.id)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     if not ok:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     return {"ok": True}

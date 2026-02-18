@@ -26,6 +26,11 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {"ok": True, "service": "wishlist-api"}
+
+
 @app.get("/api/health")
 def health():
     return {"ok": True}

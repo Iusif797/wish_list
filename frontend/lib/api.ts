@@ -48,11 +48,18 @@ export async function api<T>(
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         const detail = typeof err.detail === "string" ? err.detail : Array.isArray(err.detail) ? err.detail.map((x: { msg?: string }) => x.msg).join(", ") : res.statusText;
-        throw new Error(detail || res.statusText);
+        const errMsg = detail || res.statusText;
+        if (res.status >= 400 && res.status < 500) {
+          throw new Error(errMsg);
+        }
+        throw new Error(errMsg);
       }
       return res.json();
     } catch (e) {
       lastErr = e;
+      if (e instanceof Error && (e.message.includes("invalid_client") || e.message.includes("OAuth") || e.message.includes("Unauthorized"))) {
+        throw e;
+      }
       if (attempt === 0 && isProd) {
         await new Promise((r) => setTimeout(r, 3000));
         continue;

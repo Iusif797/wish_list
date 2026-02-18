@@ -12,7 +12,10 @@ from app.services.slug import get_unique_slug
 
 async def get_my_wishlists(db: AsyncSession, user_id: UUID) -> list[Wishlist]:
     result = await db.execute(
-        select(Wishlist).where(Wishlist.user_id == user_id).order_by(Wishlist.created_at.desc())
+        select(Wishlist)
+        .options(selectinload(Wishlist.items))
+        .where(Wishlist.user_id == user_id)
+        .order_by(Wishlist.created_at.desc())
     )
     return list(result.scalars().all())
 
@@ -72,6 +75,17 @@ async def update_item(db: AsyncSession, wishlist_id: UUID, item_id: UUID, user_i
     return item
 
 
+async def delete_wishlist(db: AsyncSession, wishlist_id: UUID, user_id: UUID) -> bool:
+    result = await db.execute(
+        select(Wishlist).where(Wishlist.id == wishlist_id, Wishlist.user_id == user_id)
+    )
+    wishlist = result.scalar_one_or_none()
+    if not wishlist:
+        return False
+    await db.delete(wishlist)
+    return True
+
+
 async def delete_item(db: AsyncSession, wishlist_id: UUID, item_id: UUID, user_id: UUID) -> bool:
     result = await db.execute(
         select(WishlistItem).join(Wishlist).where(
@@ -118,13 +132,25 @@ async def unreserve_item(db: AsyncSession, slug: str, item_id: UUID, reserver_ke
     return True
 
 
+class ContributionExceedsTarget(Exception):
+    """Raised when contribution amount would exceed target_amount."""
+    pass
+
+
 async def contribute_item(db: AsyncSession, slug: str, item_id: UUID, contributor_key: str, amount: Decimal, is_anonymous: bool) -> WishlistItem | None:
     result = await db.execute(
-        select(WishlistItem).join(Wishlist).where(Wishlist.slug == slug, WishlistItem.id == item_id)
+        select(WishlistItem)
+        .options(selectinload(WishlistItem.contributions))
+        .join(Wishlist)
+        .where(Wishlist.slug == slug, WishlistItem.id == item_id)
     )
     item = result.scalar_one_or_none()
     if not item or amount <= 0:
         return None
+    target = item.target_amount or item.price
+    total = sum(c.amount for c in item.contributions)
+    if total + amount > target:
+        raise ContributionExceedsTarget()
     contribution = Contribution(item_id=item_id, contributor_key=contributor_key, amount=amount, is_anonymous=is_anonymous)
     db.add(contribution)
     await db.flush()

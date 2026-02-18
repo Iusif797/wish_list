@@ -13,6 +13,7 @@ interface WishlistItem {
   name: string;
   occasion: string;
   slug: string;
+  item_count: number;
 }
 
 function fetcher(path: string) {
@@ -89,6 +90,7 @@ export default function DashboardPage() {
                 </div>
                 <h2 className="font-bold text-slate-900 dark:text-white text-lg">{w.name}</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{w.occasion}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{w.item_count} {w.item_count === 1 ? "item" : "items"}</p>
                 <div className="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-50 dark:bg-primary-950/30 text-primary-700 dark:text-primary-400 text-xs font-medium rounded-lg">
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></svg>
                   /w/{w.slug}

@@ -178,10 +178,17 @@ function PublicItemCard({
     }
   }
 
+  const targetAmount = item.target_amount ?? item.price;
+  const maxContribution = targetAmount - item.total_contributed;
+
   async function handleContribute(e: React.FormEvent) {
     e.preventDefault();
     const amount = parseFloat(contribAmount);
     if (!amount || amount <= 0) return;
+    if (amount > maxContribution) {
+      setError("Amount exceeds remaining target");
+      return;
+    }
     setLoading(true);
     setError("");
     try {
@@ -194,11 +201,14 @@ function PublicItemCard({
         headers,
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(typeof data.detail === "string" ? data.detail : "Failed");
+      }
       setContribAmount("");
       onUpdate();
-    } catch {
-      setError("Failed");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed");
     } finally {
       setLoading(false);
     }
@@ -207,7 +217,7 @@ function PublicItemCard({
   const canReserve = !item.reserved && !item.reserved_by_me;
   const canUnreserve = item.reserved_by_me;
   const hasTarget = item.target_amount != null && item.target_amount > 0;
-  const canContribute = hasTarget && item.progress < 1;
+  const canContribute = hasTarget && item.progress < 1 && !item.reserved;
 
   return (
     <div
@@ -290,6 +300,7 @@ function PublicItemCard({
               placeholder="Amount (₽)"
               step="0.01"
               min="0"
+              max={maxContribution}
               className="w-full sm:w-28 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
             />
             <button

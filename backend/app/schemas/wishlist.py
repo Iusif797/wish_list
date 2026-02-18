@@ -91,6 +91,7 @@ class WishlistListItem(BaseModel):
     name: str
     occasion: str
     slug: str
+    item_count: int = 0
 
     class Config:
         from_attributes = True

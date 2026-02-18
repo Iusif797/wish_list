@@ -68,7 +68,16 @@ def _public_item(item: WishlistItem, reserver_key: str, contributor_key: str) ->
 @router.get("/my", response_model=list[WishlistListItem])
 async def my_wishlists(user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     lists = await wishlist_service.get_my_wishlists(db, user.id)
-    return [WishlistListItem.model_validate(w) for w in lists]
+    return [
+        WishlistListItem(
+            id=w.id,
+            name=w.name,
+            occasion=w.occasion,
+            slug=w.slug,
+            item_count=len(w.items),
+        )
+        for w in lists
+    ]
 
 
 @router.post("", response_model=WishlistResponse)
@@ -96,6 +105,14 @@ async def get_wishlist(wishlist_id: UUID, user: User = Depends(get_current_user)
         slug=wishlist.slug,
         items=[_owner_item(i) for i in wishlist.items],
     )
+
+
+@router.delete("/{wishlist_id}")
+async def delete_wishlist(wishlist_id: UUID, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    ok = await wishlist_service.delete_wishlist(db, wishlist_id, user.id)
+    if not ok:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+    return {"ok": True}
 
 
 @router.post("/{wishlist_id}/items", response_model=WishlistItemOwner)

@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
@@ -9,6 +10,7 @@ from app.models.user import User
 from app.models.wishlist import WishlistItem
 from app.schemas.wishlist import WishlistItemPublic, ReserveRequest, ContributeRequest, UnreserveRequest
 from app.services import wishlist as wishlist_service
+from app.services.wishlist import ContributionExceedsTarget
 from app.websocket.manager import manager
 
 router = APIRouter(prefix="/wishlists/public", tags=["public"])
@@ -47,7 +49,11 @@ async def reserve_item(slug: str, item_id: UUID, body: ReserveRequest, db: Async
     key = _get_key(user, body.anonymous_token)
     if not key:
         raise HTTPException(status_code=400, detail="anonymous_token or auth required")
-    item = await wishlist_service.reserve_item(db, slug, item_id, key, user is None)
+    try:
+        item = await wishlist_service.reserve_item(db, slug, item_id, key, user is None)
+    except IntegrityError:
+        await db.rollback()
+        raise HTTPException(status_code=404, detail="Item not found or already reserved")
     if not item:
         raise HTTPException(status_code=404, detail="Item not found or already reserved")
     await manager.broadcast(f"wishlist:{slug}", {"type": "reservation", "itemId": str(item_id)})
@@ -71,7 +77,10 @@ async def contribute_item(slug: str, item_id: UUID, body: ContributeRequest, db:
     key = _get_key(user, body.anonymous_token)
     if not key:
         raise HTTPException(status_code=400, detail="anonymous_token or auth required")
-    item = await wishlist_service.contribute_item(db, slug, item_id, key, body.amount, user is None)
+    try:
+        item = await wishlist_service.contribute_item(db, slug, item_id, key, body.amount, user is None)
+    except ContributionExceedsTarget:
+        raise HTTPException(status_code=400, detail="Amount exceeds remaining target")
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     await manager.broadcast(f"wishlist:{slug}", {"type": "contribution", "itemId": str(item_id)})

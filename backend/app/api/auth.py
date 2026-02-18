@@ -69,34 +69,45 @@ async def oauth_google_url():
 @router.post("/oauth/google", response_model=TokenResponse)
 async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = Depends(get_db)):
     from authlib.integrations.httpx_client import AsyncOAuth2Client
+    import logging
+    logger = logging.getLogger(__name__)
     client_id = settings.google_client_id
     if not client_id:
         raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Google OAuth not configured")
     redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:3000/auth/callback")
-    client = AsyncOAuth2Client(
-        client_id=client_id,
-        client_secret=settings.google_client_secret,
-        redirect_uri=redirect_uri,
-    )
-    token = await client.fetch_token("https://oauth2.googleapis.com/token", code=data.code)
-    resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo", token=token)
-    user_info = resp.json()
-    email = user_info.get("email")
-    oauth_id = user_info.get("sub")
-    name = user_info.get("name")
-    result = await db.execute(select(User).where(User.oauth_id == oauth_id, User.oauth_provider == "google"))
-    user = result.scalar_one_or_none()
-    if not user:
-        result = await db.execute(select(User).where(User.email == email))
+    try:
+        client = AsyncOAuth2Client(
+            client_id=client_id,
+            client_secret=settings.google_client_secret,
+            redirect_uri=redirect_uri,
+        )
+        token = await client.fetch_token("https://oauth2.googleapis.com/token", code=data.code)
+        resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo", token=token)
+        user_info = resp.json()
+        email = user_info.get("email")
+        oauth_id = user_info.get("sub")
+        name = user_info.get("name")
+        if not email or not oauth_id:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Google did not return email")
+        result = await db.execute(select(User).where(User.oauth_id == oauth_id, User.oauth_provider == "google"))
         user = result.scalar_one_or_none()
-        if user:
-            user.oauth_provider = "google"
-            user.oauth_id = oauth_id
-            await db.flush()
-        else:
-            user = User(email=email, oauth_provider="google", oauth_id=oauth_id, name=name)
-            db.add(user)
-            await db.flush()
-    await db.refresh(user)
-    access_token = create_access_token({"sub": str(user.id)})
-    return TokenResponse(access_token=access_token, user=UserResponse.model_validate(user))
+        if not user:
+            result = await db.execute(select(User).where(User.email == email))
+            user = result.scalar_one_or_none()
+            if user:
+                user.oauth_provider = "google"
+                user.oauth_id = oauth_id
+                await db.flush()
+            else:
+                user = User(email=email, oauth_provider="google", oauth_id=oauth_id, name=name)
+                db.add(user)
+                await db.flush()
+        await db.refresh(user)
+        access_token = create_access_token({"sub": str(user.id)})
+        return TokenResponse(access_token=access_token, user=UserResponse.model_validate(user))
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("OAuth callback failed")
+        msg = str(e) if str(e) else "OAuth failed"
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=msg[:200])

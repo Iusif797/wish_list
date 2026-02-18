@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 
@@ -9,6 +9,7 @@ function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const sentRef = useRef(false);
 
   useEffect(() => {
     const code = searchParams.get("code");
@@ -17,13 +18,16 @@ function AuthCallbackContent() {
       setLoading(false);
       return;
     }
+    if (sentRef.current) return;
+    sentRef.current = true;
+
     api<{ access_token: string; user: { id: string; email: string; name: string | null } }>("/auth/oauth/google", {
       method: "POST",
       body: JSON.stringify({ code }),
     })
       .then((res) => {
         localStorage.setItem("token", res.access_token);
-        router.push("/dashboard");
+        router.replace("/dashboard");
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : "OAuth failed");

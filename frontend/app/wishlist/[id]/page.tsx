@@ -6,6 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import useSWR from "swr";
 import { useAuth } from "@/lib/auth";
 import { Header } from "@/components/Header";
+import { ConfirmModal } from "@/components/ConfirmModal";
 import { api, getWsUrl } from "@/lib/api";
 
 interface WishlistItemOwner {
@@ -39,6 +40,9 @@ export default function WishlistPage() {
   const { user, loading: authLoading } = useAuth();
   const { data: wishlist, error, isLoading, mutate } = useSWR(user && id ? `/wishlists/${id}` : null, fetcher);
   const [copied, setCopied] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const [modalWishlist, setModalWishlist] = useState(false);
+  const [modalItem, setModalItem] = useState<WishlistItemOwner | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) router.push("/login");
@@ -69,12 +73,22 @@ export default function WishlistPage() {
     <div className="min-h-screen">
       <Header />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-        <Link href="/dashboard" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium flex items-center gap-1 transition-colors w-fit mb-6">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
-          Back
-        </Link>
-        {error && (
-          <div className="p-4 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-xl mb-6 animate-scale-in">{error.message}</div>
+        <div className="flex items-center justify-between mb-6">
+          <Link href="/dashboard" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium flex items-center gap-1 transition-colors">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+            Back
+          </Link>
+          {wishlist && (
+            <button
+              onClick={() => setModalWishlist(true)}
+              className="text-red-500 dark:text-red-400 text-sm font-semibold hover:bg-red-50 dark:hover:bg-red-950/30 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Delete wishlist
+            </button>
+          )}
+        </div>
+        {(error || deleteError) && (
+          <div className="p-4 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-xl mb-6 animate-scale-in">{error?.message ?? deleteError}</div>
         )}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
@@ -180,12 +194,9 @@ export default function WishlistPage() {
                         Edit
                       </Link>
                       <button
-                        onClick={async () => {
-                          if (!confirm("Delete this item?")) return;
-                          try {
-                            await api(`/wishlists/${id}/items/${item.id}`, { method: "DELETE" });
-                            mutate();
-                          } catch {}
+                        onClick={() => {
+                          setDeleteError("");
+                          setModalItem(item);
                         }}
                         className="px-4 py-2 text-red-500 dark:text-red-400 text-sm font-semibold hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl w-full transition-colors"
                       >
@@ -199,6 +210,50 @@ export default function WishlistPage() {
           </div>
         )}
       </main>
+      <ConfirmModal
+        open={modalWishlist}
+        title="Delete wishlist"
+        message="Delete this entire wishlist? All items, reservations and contributions will be removed."
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={async () => {
+          setModalWishlist(false);
+          setDeleteError("");
+          try {
+            await api(`/wishlists/${id}`, { method: "DELETE" });
+            router.push("/dashboard");
+          } catch (err) {
+            setDeleteError(err instanceof Error ? err.message : "Failed to delete wishlist");
+          }
+        }}
+        onCancel={() => setModalWishlist(false)}
+      />
+      <ConfirmModal
+        open={!!modalItem}
+        title="Delete item"
+        message={
+          modalItem
+            ? modalItem.total_contributed > 0 || modalItem.reserved
+              ? "This item has contributions or a reservation. Deleting will remove them. Continue?"
+              : "Delete this item?"
+            : ""
+        }
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={async () => {
+          if (!modalItem) return;
+          const itemId = modalItem.id;
+          setModalItem(null);
+          setDeleteError("");
+          try {
+            await api(`/wishlists/${id}/items/${itemId}`, { method: "DELETE" });
+            mutate();
+          } catch (err) {
+            setDeleteError(err instanceof Error ? err.message : "Failed to delete item");
+          }
+        }}
+        onCancel={() => setModalItem(null)}
+      />
     </div>
   );
 }

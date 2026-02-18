@@ -11,7 +11,7 @@
 | **Frontend** | Next.js 14, React 18, Tailwind CSS, SWR |
 | **Backend** | FastAPI, SQLAlchemy 2.0 (async), Pydantic v2 |
 | **База данных** | PostgreSQL (Neon Serverless) |
-| **Деплой** | Vercel (frontend) + Railway (backend) |
+| **Деплой** | Vercel (frontend) + Render (backend) |
 | **Авторизация** | JWT + Google OAuth 2.0 |
 | **Real-time** | WebSocket (FastAPI) |
 
@@ -83,10 +83,10 @@ git push -u origin main
 2. Создай проект, скопируй **Connection string**
 3. Добавь `+asyncpg` в URL: `postgresql+asyncpg://...`
 
-### 3. Railway (бэкенд)
+### 3. Render (бэкенд)
 
-1. Зарегистрируйся на [railway.app](https://railway.app)
-2. **New Project** → Deploy from GitHub repo
+1. Зарегистрируйся на [render.com](https://render.com)
+2. **New** → **Web Service** → подключи GitHub-репозиторий
 3. **Root Directory:** `backend`
 4. Добавь переменные окружения:
 
@@ -96,10 +96,10 @@ git push -u origin main
 | `JWT_SECRET` | `openssl rand -hex 32` |
 | `CORS_ORIGINS` | `https://your-app.vercel.app` |
 | `OAUTH_REDIRECT_URI` | `https://your-app.vercel.app/auth/callback` |
-| `GOOGLE_CLIENT_ID` | *(опционально)* из Google Cloud Console |
-| `GOOGLE_CLIENT_SECRET` | *(опционально)* из Google Cloud Console |
+| `GOOGLE_CLIENT_ID` | из Google Cloud Console (для OAuth) |
+| `GOOGLE_CLIENT_SECRET` | из Google Cloud Console (для OAuth) |
 
-5. **Settings → Generate Domain** → получишь URL типа `https://xxx.up.railway.app`
+5. Render создаст URL типа `https://your-app.onrender.com`
 
 ### 4. Vercel (фронтенд)
 
@@ -109,8 +109,8 @@ git push -u origin main
 
 | Переменная | Значение |
 |-----------|---------|
-| `NEXT_PUBLIC_API_URL` | `https://YOUR-RAILWAY-URL/api` |
-| `NEXT_PUBLIC_WS_URL` | `wss://YOUR-RAILWAY-URL` |
+| `NEXT_PUBLIC_API_URL` | `https://YOUR-RENDER-URL/api` |
+| `NEXT_PUBLIC_WS_URL` | `wss://YOUR-RENDER-URL` |
 
 4. **Deploy**
 
@@ -119,7 +119,7 @@ git push -u origin main
 1. [console.cloud.google.com](https://console.cloud.google.com) → APIs → Credentials
 2. Create **OAuth 2.0 Client ID** (Web application)
 3. Authorized redirect URI: `https://your-app.vercel.app/auth/callback`
-4. Скопируй Client ID и Client Secret в Railway
+4. Скопируй Client ID и Client Secret в Render (Environment Variables)
 
 ---
 

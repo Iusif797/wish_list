@@ -40,6 +40,7 @@ class WishlistItem(Base):
 
 class Reservation(Base):
     __tablename__ = "reservations"
+    __table_args__ = (UniqueConstraint("item_id", name="uq_reservations_item_id"),)
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     item_id: Mapped[uuid.UUID] = mapped_column(Uuid, ForeignKey("wishlist_items.id", ondelete="CASCADE"), nullable=False)

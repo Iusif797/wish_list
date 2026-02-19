@@ -1,4 +1,6 @@
 import os
+import logging
+from authlib.integrations.httpx_client import AsyncOAuth2Client
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy import select
@@ -51,8 +53,7 @@ class OAuthGoogleCallback(BaseModel):
 
 
 def _get_redirect_uri() -> str:
-    uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:3000/auth/callback").strip()
-    return uri.rstrip("/")
+    return os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:3000/auth/callback").strip()
 
 
 @router.get("/oauth/google")
@@ -73,8 +74,6 @@ async def oauth_google_url():
 
 @router.post("/oauth/google", response_model=TokenResponse)
 async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = Depends(get_db)):
-    from authlib.integrations.httpx_client import AsyncOAuth2Client
-    import logging
     logger = logging.getLogger(__name__)
     client_id = settings.google_client_id
     if not client_id:
@@ -121,5 +120,9 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
         raise
     except Exception as e:
         logger.exception("OAuth callback failed")
-        msg = str(e) if str(e) else "OAuth failed"
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=msg[:200])
+        error_detail = "OAuth failed"
+        if hasattr(e, "error"):
+            error_detail = f"{getattr(e, 'error')}: {getattr(e, 'description', '')}"
+        elif str(e):
+            error_detail = str(e)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error_detail[:500])

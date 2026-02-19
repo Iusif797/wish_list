@@ -17,7 +17,7 @@ export default function HomePage() {
           <img src="/logo.png" alt="Список желаний" className="relative w-20 h-20 rounded-2xl shadow-glow-xl ring-2 ring-white/20 dark:ring-white/10" />
         </div>
         <h1 className="hero-title text-5xl sm:text-7xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">
-          Список <span className="gradient-text">желаний</span>
+          Список желаний
         </h1>
         <p className="hero-desc text-slate-700 dark:text-slate-200 max-w-xl mb-12 text-lg sm:text-xl leading-relaxed font-medium">
           Создавайте списки желаний, делитесь с друзьями, пусть они бронируют подарки или скидываются.

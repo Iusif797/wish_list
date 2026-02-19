@@ -50,12 +50,17 @@ class OAuthGoogleCallback(BaseModel):
     code: str
 
 
+def _get_redirect_uri() -> str:
+    uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:3000/auth/callback").strip()
+    return uri.rstrip("/")
+
+
 @router.get("/oauth/google")
 async def oauth_google_url():
     client_id = settings.google_client_id
     if not client_id:
         raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Google OAuth not configured")
-    redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:3000/auth/callback")
+    redirect_uri = _get_redirect_uri()
     from urllib.parse import urlencode
     params = {
         "client_id": client_id,
@@ -74,14 +79,21 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
     client_id = settings.google_client_id
     if not client_id:
         raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Google OAuth not configured")
-    redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:3000/auth/callback")
+    redirect_uri = _get_redirect_uri()
+    code = (data.code or "").strip()
+    if not code:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Missing authorization code")
     try:
         client = AsyncOAuth2Client(
             client_id=client_id,
             client_secret=settings.google_client_secret,
             redirect_uri=redirect_uri,
         )
-        token = await client.fetch_token("https://oauth2.googleapis.com/token", code=data.code)
+        token = await client.fetch_token(
+            "https://oauth2.googleapis.com/token",
+            code=code,
+            redirect_uri=redirect_uri,
+        )
         resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo", token=token)
         user_info = resp.json()
         email = user_info.get("email")

@@ -57,7 +57,7 @@ export async function api<T>(
       return res.json();
     } catch (e) {
       lastErr = e;
-      if (e instanceof Error && (e.message.includes("invalid_client") || e.message.includes("OAuth") || e.message.includes("Unauthorized"))) {
+      if (e instanceof Error && (e.message.includes("invalid_client") || e.message.includes("invalid_grant") || e.message.includes("OAuth") || e.message.includes("Unauthorized"))) {
         throw e;
       }
       if (attempt === 0 && isProd) {

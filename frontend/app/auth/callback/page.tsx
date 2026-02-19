@@ -12,7 +12,8 @@ function AuthCallbackContent() {
   const sentRef = useRef(false);
 
   useEffect(() => {
-    const code = searchParams.get("code");
+    const rawCode = searchParams.get("code");
+    const code = rawCode?.trim();
     if (!code) {
       setError("No code from Google");
       setLoading(false);

@@ -66,8 +66,8 @@ export default function PublicWishlistPage() {
       <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <img src="/logo.png" alt="Wishlist" className="w-8 h-8 rounded-xl shadow-glow" />
-            <span className="text-lg font-bold text-slate-900 dark:text-white">Wishlist</span>
+            <img src="/logo.png" alt="Список желаний" className="w-8 h-8 rounded-xl shadow-glow" />
+            <span className="text-lg font-bold text-slate-900 dark:text-white">Список желаний</span>
           </Link>
           <Link href="/login" className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all">
             Войти

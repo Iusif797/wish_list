@@ -15,7 +15,7 @@ function AuthCallbackContent() {
     const rawCode = searchParams.get("code");
     const code = rawCode?.trim();
     if (!code) {
-      setError("No code from Google");
+      setError("Не получен код от Google");
       setLoading(false);
       return;
     }
@@ -31,7 +31,7 @@ function AuthCallbackContent() {
         router.replace("/dashboard");
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : "OAuth failed");
+        setError(err instanceof Error ? err.message : "Ошибка входа через Google");
       })
       .finally(() => setLoading(false));
   }, [searchParams, router]);
@@ -39,7 +39,7 @@ function AuthCallbackContent() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-slate-600 dark:text-slate-400">Signing in...</p>
+        <p className="text-slate-600 dark:text-slate-400">Вход...</p>
       </div>
     );
   }
@@ -48,7 +48,7 @@ function AuthCallbackContent() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4">
         <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-        <a href="/login" className="text-primary-500 dark:text-primary-400 hover:underline">Back to login</a>
+        <a href="/login" className="text-primary-500 dark:text-primary-400 hover:underline">Вернуться к входу</a>
       </div>
     );
   }
@@ -60,7 +60,7 @@ export default function AuthCallbackPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-slate-600 dark:text-slate-400">Signing in...</p>
+        <p className="text-slate-600 dark:text-slate-400">Вход...</p>
       </div>
     }>
       <AuthCallbackContent />

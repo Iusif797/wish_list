@@ -46,8 +46,8 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40 dark:from-slate-950/90 dark:via-slate-950/80 dark:to-slate-950/90" />
       <div className="relative z-10 w-full max-w-md animate-slide-up">
         <Link href="/" className="flex items-center justify-center gap-2.5 mb-8 group">
-          <img src="/logo.png" alt="Wishlist" className="w-10 h-10 rounded-xl shadow-glow" />
-          <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Wishlist</span>
+          <img src="/logo.png" alt="Список желаний" className="w-10 h-10 rounded-xl shadow-glow" />
+          <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Список желаний</span>
         </Link>
         <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
           <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Вход в аккаунт</h2>
@@ -68,7 +68,7 @@ export default function LoginPage() {
           )}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Эл. почта</label>
               <input
                 type="email"
                 value={email}

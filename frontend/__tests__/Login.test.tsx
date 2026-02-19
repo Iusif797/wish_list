@@ -25,7 +25,7 @@ describe("LoginPage", () => {
     mockApi.mockRejectedValue(new Error("unavailable"));
     render(<LoginPage />);
     expect(screen.getByRole("heading", { name: /Вход в аккаунт/i })).toBeInTheDocument();
-    expect(screen.getByText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByText(/Эл\. почта/i)).toBeInTheDocument();
     expect(screen.getByText(/Пароль/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Войти/i })).toBeInTheDocument();
   });

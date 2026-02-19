@@ -12,14 +12,14 @@ export function Header() {
     <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <img src="/logo.png" alt="Wishlist" className="w-8 h-8 rounded-xl shadow-glow transition-shadow group-hover:shadow-glow-lg" />
-          <span className="text-lg font-bold text-slate-900 dark:text-white">Wishlist</span>
+          <img src="/logo.png" alt="Список желаний" className="w-8 h-8 rounded-xl shadow-glow transition-shadow group-hover:shadow-glow-lg" />
+          <span className="text-lg font-bold text-slate-900 dark:text-white">Список желаний</span>
         </Link>
         <div className="flex items-center gap-2">
           <button
             onClick={toggle}
             className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            aria-label="Toggle theme"
+            aria-label="Переключить тему"
           >
             {theme === "dark" ? (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg>
@@ -39,7 +39,7 @@ export function Header() {
                 onClick={logout}
                 className="text-sm text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 font-medium transition-colors px-3 py-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
               >
-                Sign out
+                Выйти
               </button>
             </div>
           ) : (
@@ -47,7 +47,7 @@ export function Header() {
               href="/login"
               className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all"
             >
-              Sign in
+              Войти
             </Link>
           )}
         </div>

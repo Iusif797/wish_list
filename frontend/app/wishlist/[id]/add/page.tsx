@@ -38,7 +38,7 @@ export default function AddItemPage() {
       if (res.image_url) setImageUrl(res.image_url);
       if (res.price != null) setPrice(String(res.price));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not fetch product info");
+      setError(err instanceof Error ? err.message : "Не удалось загрузить информацию о товаре");
     } finally {
       setFetching(false);
     }
@@ -61,7 +61,7 @@ export default function AddItemPage() {
       });
       router.push(`/wishlist/${id}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to add");
+      setError(err instanceof Error ? err.message : "Не удалось добавить");
     } finally {
       setLoading(false);
     }
@@ -73,19 +73,19 @@ export default function AddItemPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
           <Link href={`/wishlist/${id}`} className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium flex items-center gap-1 transition-colors w-fit">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
-            Back
+            Назад
           </Link>
         </div>
       </header>
       <main className="max-w-lg mx-auto px-4 py-10 animate-slide-up">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Add item</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Добавить товар</h1>
         <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm animate-scale-in">{error}</div>
           )}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Product URL</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Ссылка на товар</label>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="url"
@@ -100,13 +100,13 @@ export default function AddItemPage() {
                   disabled={fetching || !url.trim()}
                   className="px-4 py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5 shrink-0"
                 >
-                  {fetching ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Fetch"}
+                  {fetching ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Загрузить"}
                 </button>
               </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1.5">Auto-fill name, image and price from URL</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1.5">Автозаполнение названия, изображения и цены по ссылке</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Название</label>
               <input
                 type="text"
                 value={name}
@@ -116,7 +116,7 @@ export default function AddItemPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Price (₽)</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Цена (₽)</label>
               <input
                 type="number"
                 value={price}
@@ -127,24 +127,24 @@ export default function AddItemPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Target amount (₽) — for group gift</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Целевая сумма (₽) — для группового подарка</label>
               <input
                 type="number"
                 value={targetAmount}
                 onChange={(e) => setTargetAmount(e.target.value)}
                 step="0.01"
                 min="0"
-                placeholder="Optional"
+                placeholder="Необязательно"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Image URL</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Ссылка на изображение</label>
               <input
                 type="url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="Optional"
+                placeholder="Необязательно"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
@@ -154,7 +154,7 @@ export default function AddItemPage() {
             disabled={loading}
             className="mt-6 w-full py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 transition-all shadow-glow hover:shadow-glow-lg flex items-center justify-center gap-2"
           >
-            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Add item"}
+            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Добавить товар"}
           </button>
         </form>
       </main>

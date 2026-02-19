@@ -84,9 +84,21 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 w-full btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
+            className="mt-6 w-full google-auth-btn disabled:opacity-50"
           >
-            {loading ? <span className="spinner-premium spinner-premium-sm spinner-premium-light" /> : "Войти"}
+            <span className="google-auth-btn__glow" />
+            <span className="google-auth-btn__content">
+              {loading ? (
+                <span className="spinner-premium spinner-premium-sm spinner-premium-light" />
+              ) : (
+                <>
+                  <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                  </svg>
+                  <span>Войти</span>
+                </>
+              )}
+            </span>
           </button>
           <div className="mt-4">
             <GoogleAuthButton label="Войти через Google" />

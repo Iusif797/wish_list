@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -23,34 +23,57 @@
 
 @layer utilities {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20
-           dark:bg-slate-900/70 dark:border-slate-700/40;
+    @apply bg-white/80 backdrop-blur-2xl border border-white/30
+           dark:bg-slate-900/80 dark:border-slate-700/50;
   }
 
   .glass-card {
-    @apply bg-white/80 backdrop-blur-lg border border-slate-200/60 shadow-lg shadow-slate-900/5
-           dark:bg-slate-800/60 dark:border-slate-700/50 dark:shadow-black/20;
+    @apply bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-card
+           dark:bg-slate-800/80 dark:border-slate-700/60 dark:shadow-card-dark;
+  }
+
+  .glass-card-elevated {
+    @apply glass-card hover:shadow-card-hover dark:hover:shadow-card-hover;
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 to-emerald-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-600 via-emerald-500 to-primary-500 bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-2xl
+           hover:from-primary-600 hover:to-emerald-600 hover:shadow-glow-lg
+           active:scale-[0.98] transition-all duration-200 shadow-glow;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3.5 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/60
+           text-slate-700 dark:text-slate-200 font-semibold rounded-2xl
+           hover:bg-white dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600
+           active:scale-[0.98] transition-all duration-200 shadow-soft;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-600
+           bg-white/90 dark:bg-slate-800/90 focus:bg-white dark:focus:bg-slate-800
+           transition-all duration-200;
   }
 
   .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/10
-           dark:hover:shadow-black/30;
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover
+           dark:hover:shadow-card-hover;
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .animate-slide-up {
-    animation: slideUp 0.5s ease-out;
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.3s ease-out;
+    animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 

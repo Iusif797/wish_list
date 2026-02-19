@@ -43,13 +43,14 @@ export default function LoginPage() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{ backgroundImage: "url(/wishlist-bg.png)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40 dark:from-slate-950/90 dark:via-slate-950/80 dark:to-slate-950/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/10 to-slate-950/30 dark:from-slate-950/95 dark:via-slate-950/70 dark:to-slate-950" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-primary-400/15 rounded-full blur-[80px]" />
       <div className="relative z-10 w-full max-w-md animate-slide-up">
         <Link href="/" className="flex items-center justify-center gap-2.5 mb-8 group">
-          <img src="/logo.png" alt="Список желаний" className="w-10 h-10 rounded-xl shadow-glow" />
+          <img src="/logo.png" alt="Список желаний" className="w-11 h-11 rounded-2xl shadow-glow transition-transform group-hover:scale-105" />
           <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Список желаний</span>
         </Link>
-        <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
+        <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200/80 dark:border-slate-700/60 shadow-card dark:shadow-card-dark">
           <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Вход в аккаунт</h2>
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm animate-scale-in space-y-2">
@@ -74,7 +75,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
+                className="input-field"
               />
             </div>
             <div>
@@ -84,14 +85,14 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
+                className="input-field"
               />
             </div>
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 w-full py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 transition-all shadow-glow hover:shadow-glow-lg flex items-center justify-center gap-2"
+            className="mt-6 w-full btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? <span className="spinner-premium spinner-premium-sm spinner-premium-light" /> : "Войти"}
           </button>
@@ -99,7 +100,7 @@ export default function LoginPage() {
             oauthUrl ? (
               <a
                 href={oauthUrl}
-                className="mt-4 w-full py-3.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-center gap-2"
+                className="mt-4 w-full btn-secondary flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

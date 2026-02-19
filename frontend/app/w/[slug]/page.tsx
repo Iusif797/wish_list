@@ -63,7 +63,7 @@ export default function PublicWishlistPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60">
+      <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60 shadow-soft">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <img src="/logo.png" alt="Список желаний" className="w-8 h-8 rounded-xl shadow-glow" />
@@ -80,7 +80,7 @@ export default function PublicWishlistPage() {
         )}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <span className="spinner border-primary-500/30 border-t-primary-500 w-8 h-8" />
+            <span className="spinner-premium" />
           </div>
         )}
         {wishlist && (
@@ -90,7 +90,7 @@ export default function PublicWishlistPage() {
               <p className="text-slate-500 dark:text-slate-400 mt-1">{wishlist.occasion}</p>
             </div>
             {wishlist.items.length === 0 ? (
-              <div className="glass-card rounded-3xl p-8 sm:p-16 text-center">
+              <div className="glass-card rounded-3xl p-8 sm:p-16 text-center shadow-card dark:shadow-card-dark">
                 <div className="w-16 h-16 rounded-2xl bg-primary-50 dark:bg-primary-950/30 flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">🎁</span>
                 </div>

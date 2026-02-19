@@ -92,7 +92,7 @@ export default function WishlistPage() {
         )}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <span className="spinner border-primary-500/30 border-t-primary-500 w-8 h-8" />
+            <span className="spinner-premium" />
           </div>
         )}
         {wishlist && (
@@ -100,7 +100,7 @@ export default function WishlistPage() {
             <div className="mb-8">
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{wishlist.name}</h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">{wishlist.occasion}</p>
-              <div className="mt-5 p-4 bg-gradient-to-r from-primary-500/10 to-emerald-500/10 dark:from-primary-950/20 dark:to-emerald-950/20 rounded-2xl border border-primary-100/50 dark:border-primary-800/30">
+              <div className="mt-5 p-5 bg-gradient-to-r from-primary-500/10 to-emerald-500/10 dark:from-primary-950/20 dark:to-emerald-950/20 rounded-2xl border border-primary-200/60 dark:border-primary-800/40 shadow-soft">
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Ссылка для друзей</p>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
@@ -110,7 +110,7 @@ export default function WishlistPage() {
                   />
                   <button
                     onClick={handleCopy}
-                    className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white text-sm font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow shrink-0"
+                    className="px-5 py-2.5 btn-primary text-sm shrink-0"
                   >
                     {copied ? "Скопировано!" : "Копировать"}
                   </button>
@@ -121,7 +121,7 @@ export default function WishlistPage() {
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">Товары</h2>
               <Link
                 href={`/wishlist/${id}/add`}
-                className="px-4 py-2 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow flex items-center gap-1.5 text-sm"
+                className="btn-primary text-sm flex items-center gap-1.5"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 Добавить товар
@@ -135,7 +135,7 @@ export default function WishlistPage() {
                 <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">В этом списке пока нет товаров.</p>
                 <Link
                   href={`/wishlist/${id}/add`}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow"
+                  className="inline-flex items-center gap-2 btn-primary"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                   Добавить первый товар

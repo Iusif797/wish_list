@@ -9,16 +9,16 @@ export function Header() {
   const { theme, toggle } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60">
+    <header className="sticky top-0 z-50 glass border-b border-slate-200/60 dark:border-slate-700/60 shadow-soft">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <img src="/logo.png" alt="Список желаний" className="w-8 h-8 rounded-xl shadow-glow transition-shadow group-hover:shadow-glow-lg" />
+          <img src="/logo.png" alt="Список желаний" className="w-9 h-9 rounded-xl shadow-glow transition-all duration-200 group-hover:shadow-glow-lg group-hover:scale-105" />
           <span className="text-lg font-bold text-slate-900 dark:text-white">Список желаний</span>
         </Link>
         <div className="flex items-center gap-2">
           <button
             onClick={toggle}
-            className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-200 transition-all duration-200"
             aria-label="Переключить тему"
           >
             {theme === "dark" ? (
@@ -30,7 +30,7 @@ export function Header() {
           {user ? (
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-400 to-emerald-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-emerald-500 flex items-center justify-center shadow-glow ring-2 ring-white/20 dark:ring-slate-800/50">
                   <span className="text-white text-xs font-semibold">{(user.name || user.email || "?")[0].toUpperCase()}</span>
                 </div>
                 <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">{user.name || user.email}</span>
@@ -45,7 +45,7 @@ export function Header() {
           ) : (
             <Link
               href="/login"
-              className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all"
+              className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-5 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all duration-200"
             >
               Войти
             </Link>

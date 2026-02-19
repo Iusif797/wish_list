@@ -46,7 +46,7 @@ export default function DashboardPage() {
           </div>
           <Link
             href="/dashboard/new"
-            className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow hover:shadow-glow-lg flex items-center gap-2 shrink-0"
+            className="btn-primary flex items-center gap-2 shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
             Создать список
@@ -54,7 +54,7 @@ export default function DashboardPage() {
         </div>
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <span className="spinner border-primary-500/30 border-t-primary-500 w-8 h-8" />
+            <span className="spinner-premium" />
           </div>
         )}
         {(error || deleteError) && (
@@ -63,14 +63,14 @@ export default function DashboardPage() {
           </div>
         )}
         {wishlists && wishlists.length === 0 && (
-          <div className="glass-card rounded-3xl p-8 sm:p-16 text-center animate-slide-up">
-            <div className="w-16 h-16 rounded-2xl bg-primary-50 dark:bg-primary-950/30 flex items-center justify-center mx-auto mb-6">
+          <div className="glass-card rounded-3xl p-8 sm:p-16 text-center animate-slide-up border border-slate-200/80 dark:border-slate-700/60 shadow-card dark:shadow-card-dark">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-100 to-emerald-100 dark:from-primary-950/50 dark:to-emerald-950/30 flex items-center justify-center mx-auto mb-6 shadow-soft">
               <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" /></svg>
             </div>
             <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">У вас пока нет списков подарков.</p>
             <Link
               href="/dashboard/new"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 transition-all shadow-glow"
+              className="inline-flex items-center gap-2 btn-primary"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
               Создать первый список

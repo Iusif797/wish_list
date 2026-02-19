@@ -61,7 +61,7 @@ export default function NewWishlistPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="напр. День рождения 2025"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
+                className="input-field"
               />
             </div>
             <div>
@@ -72,14 +72,14 @@ export default function NewWishlistPage() {
                 onChange={(e) => setOccasion(e.target.value)}
                 required
                 placeholder="напр. День рождения, Новый год"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
+                className="input-field"
               />
             </div>
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 w-full py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 transition-all shadow-glow hover:shadow-glow-lg flex items-center justify-center gap-2"
+            className="mt-6 w-full btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? <span className="spinner border-white/30 border-t-white" /> : "Создать"}
           </button>

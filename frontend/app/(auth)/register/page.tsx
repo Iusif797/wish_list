@@ -32,7 +32,7 @@ export default function RegisterPage() {
       await register(email, password, name || undefined);
       router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
+      setError(err instanceof Error ? err.message : "Ошибка регистрации");
     } finally {
       setLoading(false);
     }
@@ -51,7 +51,7 @@ export default function RegisterPage() {
           <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Wishlist</span>
         </Link>
         <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
-          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Create account</h2>
+          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Регистрация</h2>
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm animate-scale-in space-y-2">
               <p>{error}</p>
@@ -62,19 +62,19 @@ export default function RegisterPage() {
                   rel="noopener noreferrer"
                   className="block text-primary-600 hover:underline text-xs"
                 >
-                  Open in new tab (wait 1 min) →
+                  Открыть в новой вкладке (подождите 1 мин) →
                 </a>
               )}
             </div>
           )}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Name</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Имя</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Optional"
+                placeholder="Необязательно"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 transition-colors"
               />
             </div>
@@ -89,7 +89,7 @@ export default function RegisterPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Пароль</label>
               <input
                 type="password"
                 value={password}
@@ -105,13 +105,13 @@ export default function RegisterPage() {
             disabled={loading}
             className="mt-6 w-full py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 transition-all shadow-glow hover:shadow-glow-lg flex items-center justify-center gap-2"
           >
-            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Create account"}
+            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Создать аккаунт"}
           </button>
           <div className="mt-4">
             {oauthLoading ? (
               <div className="w-full py-3.5 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold rounded-xl flex items-center justify-center gap-2 bg-slate-50/50 dark:bg-slate-800/30">
                 <span className="spinner border-slate-300 dark:border-slate-600 border-t-slate-600 dark:border-t-slate-400 w-4 h-4" />
-                Loading Google sign-up...
+                Загрузка Google...
               </div>
             ) : oauthUrl ? (
               <a
@@ -124,23 +124,23 @@ export default function RegisterPage() {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                Sign up with Google
+                Зарегистрироваться через Google
               </a>
             ) : (
               <p className="text-center text-xs text-slate-500 dark:text-slate-400">
-                Google sign-up is not configured
+                Регистрация через Google не настроена
               </p>
             )}
           </div>
           <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
-            Already have an account?{" "}
+            Уже есть аккаунт?{" "}
             <Link href="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
-              Sign in
+              Войти
             </Link>
           </p>
         </form>
         <p className="mt-6 text-center">
-          <Link href="/" className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 text-sm transition-colors">Back to home</Link>
+          <Link href="/" className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 text-sm transition-colors">На главную</Link>
         </p>
       </div>
     </div>

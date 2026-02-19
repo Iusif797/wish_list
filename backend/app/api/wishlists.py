@@ -142,6 +142,20 @@ async def delete_item(wishlist_id: UUID, item_id: UUID, user: User = Depends(get
     return {"ok": True}
 
 
+@router.post("/public/{slug}/items/{item_id}/contribute", response_model=WishlistItemPublic)
+async def contribute_item(slug: str, item_id: UUID, data: ContributeRequest, anonymous_token: str | None = None, db: AsyncSession = Depends(get_db), user: User | None = Depends(get_current_user_optional)):
+    key = user.email if user else (anonymous_token or "")
+    try:
+        item = await wishlist_service.contribute_item(db, slug, item_id, key, data.amount, user is None)
+        if not item:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        return _public_item(item, key, key)
+    except wishlist_service.ContributionExceedsTarget:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Contribution exceeds target amount")
+    except wishlist_service.ItemAlreadyReserved:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Item is already reserved")
+
+
 @router.get("/public/{slug}", response_model=WishlistPublicResponse)
 async def get_public_wishlist(slug: str, anonymous_token: str | None = None, db: AsyncSession = Depends(get_db), user: User | None = Depends(get_current_user_optional)):
     wishlist = await wishlist_service.get_wishlist_by_slug(db, slug)

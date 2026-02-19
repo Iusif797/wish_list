@@ -26,7 +26,7 @@ describe("DashboardPage", () => {
     render(<DashboardPage />);
     expect(screen.getByText("Birthday")).toBeInTheDocument();
     expect(screen.getByText("Wedding")).toBeInTheDocument();
-    expect(screen.getByText("3 items")).toBeInTheDocument();
-    expect(screen.getByText("1 item")).toBeInTheDocument();
+    expect(screen.getByText(/3 товара/i)).toBeInTheDocument();
+    expect(screen.getByText(/1 товар/i)).toBeInTheDocument();
   });
 });

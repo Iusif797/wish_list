@@ -31,7 +31,7 @@ export default function LoginPage() {
       await login(email, password);
       router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(err instanceof Error ? err.message : "Ошибка входа");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export default function LoginPage() {
           <span className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Wishlist</span>
         </Link>
         <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-6 sm:p-8">
-          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Sign in</h2>
+          <h2 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Вход в аккаунт</h2>
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 text-sm animate-scale-in space-y-2">
               <p>{error}</p>
@@ -61,7 +61,7 @@ export default function LoginPage() {
                   rel="noopener noreferrer"
                   className="block text-primary-600 hover:underline text-xs"
                 >
-                  Open in new tab (wait 1 min) →
+                  Открыть в новой вкладке (подождите 1 мин) →
                 </a>
               )}
             </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Пароль</label>
               <input
                 type="password"
                 value={password}
@@ -93,7 +93,7 @@ export default function LoginPage() {
             disabled={loading}
             className="mt-6 w-full py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 transition-all shadow-glow hover:shadow-glow-lg flex items-center justify-center gap-2"
           >
-            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Sign in"}
+            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Войти"}
           </button>
           {!oauthLoading && (
             oauthUrl ? (
@@ -107,23 +107,23 @@ export default function LoginPage() {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                Sign in with Google
+                Войти через Google
               </a>
             ) : (
               <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
-                Google sign-in is not configured
+                Вход через Google не настроен
               </p>
             )
           )}
           <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
-            Don&apos;t have an account?{" "}
+            Нет аккаунта?{" "}
             <Link href="/register" className="text-primary-600 hover:text-primary-700 font-semibold">
-              Sign up
+              Зарегистрироваться
             </Link>
           </p>
         </form>
         <p className="mt-6 text-center">
-          <Link href="/" className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 text-sm transition-colors">Back to home</Link>
+          <Link href="/" className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400 text-sm transition-colors">На главную</Link>
         </p>
       </div>
     </div>

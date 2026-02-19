@@ -67,8 +67,8 @@ export async function api<T>(
         continue;
       }
       const msg = isProd
-        ? "Server temporarily unavailable. Please try again in a minute."
-        : "Server unavailable. Make sure the backend is running (uvicorn app.main:app --reload in backend folder).";
+        ? "Сервер временно недоступен. Пожалуйста, попробуйте еще раз через минуту."
+        : "Сервер недоступен. Убедитесь, что бэкенд запущен (uvicorn app.main:app --reload в папке backend).";
       throw new Error(msg);
     }
   }

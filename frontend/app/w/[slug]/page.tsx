@@ -37,7 +37,7 @@ async function fetchPublicWishlist(slug: string, anonToken: string): Promise<Wis
   if (anonToken) params.set("anonymous_token", anonToken);
   const q = params.toString();
   const res = await fetch(`${url}${q ? `?${q}` : ""}`, { headers });
-  if (!res.ok) throw new Error("Not found");
+  if (!res.ok) throw new Error("Список не найден");
   return res.json();
 }
 
@@ -70,13 +70,13 @@ export default function PublicWishlistPage() {
             <span className="text-lg font-bold text-slate-900 dark:text-white">Wishlist</span>
           </Link>
           <Link href="/login" className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all">
-            Sign in
+            Войти
           </Link>
         </div>
       </header>
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {error && (
-          <div className="p-6 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-2xl animate-scale-in">Wishlist not found.</div>
+          <div className="p-6 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-2xl animate-scale-in">Список не найден или доступ ограничен.</div>
         )}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
@@ -94,7 +94,7 @@ export default function PublicWishlistPage() {
                 <div className="w-16 h-16 rounded-2xl bg-primary-50 dark:bg-primary-950/30 flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">🎁</span>
                 </div>
-                <p className="text-slate-600 dark:text-slate-400 text-lg">No items in this wishlist yet.</p>
+                <p className="text-slate-600 dark:text-slate-400 text-lg">В этом списке пока нет товаров.</p>
               </div>
             ) : (
               <div className="space-y-5">
@@ -147,10 +147,13 @@ function PublicItemCard({
         headers,
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(typeof data.detail === "string" ? data.detail : "Не удалось забронировать подарок");
+      }
       onUpdate();
-    } catch {
-      setError("Failed");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Не удалось забронировать подарок");
     } finally {
       setLoading(false);
     }
@@ -169,10 +172,13 @@ function PublicItemCard({
         headers,
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(typeof data.detail === "string" ? data.detail : "Не удалось отменить бронь");
+      }
       onUpdate();
-    } catch {
-      setError("Failed");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Не удалось отменить бронь");
     } finally {
       setLoading(false);
     }
@@ -186,7 +192,7 @@ function PublicItemCard({
     const amount = parseFloat(contribAmount);
     if (!amount || amount <= 0) return;
     if (amount > maxContribution) {
-      setError("Amount exceeds remaining target");
+      setError("Сумма превышает остаток для сбора");
       return;
     }
     setLoading(true);
@@ -203,12 +209,12 @@ function PublicItemCard({
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(typeof data.detail === "string" ? data.detail : "Failed");
+        throw new Error(typeof data.detail === "string" ? data.detail : "Ошибка при переводе");
       }
       setContribAmount("");
       onUpdate();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed");
+      setError(err instanceof Error ? err.message : "Ошибка");
     } finally {
       setLoading(false);
     }
@@ -260,13 +266,13 @@ function PublicItemCard({
           {item.reserved && !item.reserved_by_me && (
             <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold rounded-lg">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-              Reserved
+              Забронировано
             </span>
           )}
           {item.reserved_by_me && (
             <span className="inline-flex items-center gap-1 mt-2.5 px-2.5 py-1 bg-primary-50 dark:bg-primary-950/30 text-primary-700 dark:text-primary-400 text-xs font-semibold rounded-lg">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
-              You reserved
+              Вы забронировали
             </span>
           )}
         </div>
@@ -279,7 +285,7 @@ function PublicItemCard({
             disabled={loading}
             className="px-5 py-2.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 text-sm shadow-glow transition-all flex items-center gap-1.5"
           >
-            {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Reserve this gift"}
+            {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Забронировать подарок"}
           </button>
         )}
         {canUnreserve && (
@@ -288,7 +294,7 @@ function PublicItemCard({
             disabled={loading}
             className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5"
           >
-            {loading ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Cancel reservation"}
+            {loading ? <span className="spinner border-slate-400/30 border-t-slate-500 w-4 h-4" /> : "Отменить бронь"}
           </button>
         )}
         {canContribute && (
@@ -297,7 +303,7 @@ function PublicItemCard({
               type="number"
               value={contribAmount}
               onChange={(e) => setContribAmount(e.target.value)}
-              placeholder="Amount (₽)"
+              placeholder="Сумма (₽)"
               step="0.01"
               min="0"
               max={maxContribution}
@@ -308,7 +314,7 @@ function PublicItemCard({
               disabled={loading}
               className="px-5 py-2.5 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 disabled:opacity-50 text-sm transition-colors flex items-center gap-1.5 w-full sm:w-auto justify-center"
             >
-              {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Contribute"}
+              {loading ? <span className="spinner border-white/30 border-t-white w-4 h-4" /> : "Скинуться"}
             </button>
           </form>
         )}

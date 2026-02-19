@@ -60,7 +60,7 @@ def _get_redirect_uri() -> str:
 async def oauth_google_url():
     client_id = settings.google_client_id
     if not client_id:
-        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Google OAuth not configured")
+        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Вход через Google не настроен на сервере")
     redirect_uri = _get_redirect_uri()
     from urllib.parse import urlencode
     params = {
@@ -77,14 +77,12 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
     logger = logging.getLogger(__name__)
     client_id = settings.google_client_id
     if not client_id:
-        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Google OAuth not configured")
+        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Вход через Google не настроен на сервере")
     redirect_uri = _get_redirect_uri()
     code = (data.code or "").strip()
     if not code:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Missing authorization code")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Отсутствует код авторизации")
     try:
-        print(f"DEBUG: OAuth exchange started for client_id: {client_id}")
-        print(f"DEBUG: Redirect URI: {redirect_uri}")
         client = AsyncOAuth2Client(
             client_id=client_id,
             client_secret=settings.google_client_secret,
@@ -95,14 +93,13 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
             "https://oauth2.googleapis.com/token",
             code=code,
         )
-        print(f"DEBUG: Token exchange successful")
         resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo")
         user_info = resp.json()
         email = user_info.get("email")
         oauth_id = user_info.get("sub")
         name = user_info.get("name")
         if not email or not oauth_id:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Google did not return email")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Google не вернул email")
         result = await db.execute(select(User).where(User.oauth_id == oauth_id, User.oauth_provider == "google"))
         user = result.scalar_one_or_none()
         if not user:
@@ -128,5 +125,4 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
             error_detail = f"{getattr(e, 'error')}: {getattr(e, 'description', '')}"
         elif str(e):
             error_detail = str(e)
-        print(f"DEBUG: OAuth error detail: {error_detail}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error_detail[:500])

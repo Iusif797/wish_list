@@ -143,10 +143,15 @@ class ContributionExceedsTarget(Exception):
     pass
 
 
+class ItemAlreadyReserved(Exception):
+    """Raised when trying to contribute to a reserved item."""
+    pass
+
+
 async def contribute_item(db: AsyncSession, slug: str, item_id: UUID, contributor_key: str, amount: Decimal, is_anonymous: bool) -> WishlistItem | None:
     result = await db.execute(
         select(WishlistItem)
-        .options(selectinload(WishlistItem.contributions))
+        .options(selectinload(WishlistItem.contributions), selectinload(WishlistItem.reservations))
         .join(Wishlist)
         .where(Wishlist.slug == slug, WishlistItem.id == item_id)
     )
@@ -157,6 +162,8 @@ async def contribute_item(db: AsyncSession, slug: str, item_id: UUID, contributo
     total = sum(c.amount for c in item.contributions)
     if total + amount > target:
         raise ContributionExceedsTarget()
+    if item.reservations:
+        raise ItemAlreadyReserved()
     contribution = Contribution(item_id=item_id, contributor_key=contributor_key, amount=amount, is_anonymous=is_anonymous)
     db.add(contribution)
     await db.flush()

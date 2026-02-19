@@ -1,37 +1,39 @@
 """WebSocket API tests."""
 
 import pytest
+from fastapi.testclient import TestClient
+from app.main import app
 
 
-async def test_websocket_connect_valid_slug(client):
+def test_websocket_connect_valid_slug():
     """WebSocket accepts connection for valid wishlist slug."""
-    r_reg = await client.post(
-        "/api/auth/register",
-        json={"email": "ws@example.com", "password": "secret123"},
-    )
-    assert r_reg.status_code == 200
-    token = r_reg.json()["access_token"]
+    with TestClient(app) as client:
+        r_reg = client.post(
+            "/api/auth/register",
+            json={"email": "ws_test_unique@example.com", "password": "secret123"},
+        )
+        assert r_reg.status_code == 200
+        token = r_reg.json()["access_token"]
 
-    r_wl = await client.post(
-        "/api/wishlists",
-        json={"name": "WS List", "occasion": "Test"},
-        headers={"Authorization": f"Bearer {token}"},
-    )
-    assert r_wl.status_code == 200
-    slug = r_wl.json()["slug"]
+        r_wl = client.post(
+            "/api/wishlists",
+            json={"name": "WS List", "occasion": "Test"},
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        assert r_wl.status_code == 200
+        slug = r_wl.json()["slug"]
 
-    async with client.websocket_connect(f"/ws/wishlist/{slug}") as ws:
-        # Connection accepted (no immediate close)
-        pass
+        with client.websocket_connect(f"/ws/wishlist/{slug}") as ws:
+            # Connection accepted (no immediate close)
+            pass
 
 
-async def test_websocket_invalid_slug_closes(client):
+def test_websocket_invalid_slug_closes():
     """WebSocket closes for non-existent slug (server sends close code 4004)."""
-    import httpx
-    try:
-        async with client.websocket_connect("/ws/wishlist/nonexistent-slug-xyz-123") as ws:
-            # Server should close immediately; if we get here, receive will fail or return close
-            _ = await ws.receive_text()
-    except (httpx.RemoteProtocolError, Exception):
-        # Expected when server closes connection
-        pass
+    with TestClient(app) as client:
+        try:
+            with client.websocket_connect("/ws/wishlist/nonexistent-slug-xyz-123") as ws:
+                _ = ws.receive_text()
+        except Exception:
+            # Expected when server closes connection
+            pass

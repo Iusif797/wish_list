@@ -24,17 +24,17 @@ describe("LoginPage", () => {
   it("renders sign in form", () => {
     mockApi.mockRejectedValue(new Error("unavailable"));
     render(<LoginPage />);
-    expect(screen.getByRole("heading", { name: /sign in/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /sign in/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Вход в аккаунт/i })).toBeInTheDocument();
+    expect(screen.getByText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByText(/Пароль/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Войти/i })).toBeInTheDocument();
   });
 
   it("renders Sign in with Google when oauth URL is available", async () => {
     mockApi.mockResolvedValue({ url: "https://accounts.google.com/..." });
     render(<LoginPage />);
     await vi.waitFor(() => {
-      expect(screen.getByText(/sign in with google/i)).toBeInTheDocument();
+      expect(screen.getByText(/Войти через Google/i)).toBeInTheDocument();
     });
   });
 });

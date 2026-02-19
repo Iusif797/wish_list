@@ -31,7 +31,7 @@ export function Header() {
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2">
                 <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-400 to-emerald-400 flex items-center justify-center">
-                  <span className="text-white text-xs font-semibold">{(user.name || user.email)[0].toUpperCase()}</span>
+                  <span className="text-white text-xs font-semibold">{(user.name || user.email || "?")[0].toUpperCase()}</span>
                 </div>
                 <span className="text-sm text-slate-600 dark:text-slate-400 font-medium">{user.name || user.email}</span>
               </div>

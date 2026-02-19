@@ -43,7 +43,7 @@ export async function api<T>(
   const isOAuthExchange = path.includes("/auth/oauth/") && opts.body && JSON.parse(opts.body as string).code;
   const timeout = isProd ? PROD_SPINUP_MS : 30000;
   let lastErr: unknown;
-  const maxAttempts = isOAuthExchange ? 1 : 2;
+  const maxAttempts = 2;
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       const res = await fetchWithTimeout(url, { ...opts, headers }, timeout);
@@ -62,8 +62,8 @@ export async function api<T>(
       if (e instanceof Error && (e.message.includes("invalid_client") || e.message.includes("invalid_grant") || e.message.includes("OAuth") || e.message.includes("Unauthorized"))) {
         throw e;
       }
-      if (attempt === 0 && isProd) {
-        await new Promise((r) => setTimeout(r, 3000));
+      if (attempt === 0) {
+        await new Promise((r) => setTimeout(r, isOAuthExchange ? 1500 : isProd ? 3000 : 0));
         continue;
       }
       const msg = isProd

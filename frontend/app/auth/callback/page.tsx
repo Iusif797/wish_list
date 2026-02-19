@@ -1,11 +1,11 @@
 "use client";
 
 import { Suspense, useEffect, useState, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
+import { AUTH_STORAGE_EVENT } from "@/lib/auth";
 
 function AuthCallbackContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -28,13 +28,14 @@ function AuthCallbackContent() {
     })
       .then((res) => {
         localStorage.setItem("token", res.access_token);
-        router.replace("/dashboard");
+        window.dispatchEvent(new Event(AUTH_STORAGE_EVENT));
+        window.location.href = "/dashboard";
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : "Ошибка входа через Google");
       })
       .finally(() => setLoading(false));
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   if (loading) {
     return (

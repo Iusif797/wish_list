@@ -96,7 +96,7 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
             code=code,
         )
         print(f"DEBUG: Token exchange successful")
-        resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo", token=token)
+        resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo")
         user_info = resp.json()
         email = user_info.get("email")
         oauth_id = user_info.get("sub")

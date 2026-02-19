@@ -40,9 +40,11 @@ export async function api<T>(
   if (token) headers["Authorization"] = `Bearer ${token}`;
   const url = getApiUrl(path);
   const isProd = typeof window !== "undefined" && !window.location.hostname.includes("localhost");
+  const isOAuthExchange = path.includes("/auth/oauth/") && opts.body && JSON.parse(opts.body as string).code;
   const timeout = isProd ? PROD_SPINUP_MS : 30000;
   let lastErr: unknown;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  const maxAttempts = isOAuthExchange ? 1 : 2;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       const res = await fetchWithTimeout(url, { ...opts, headers }, timeout);
       if (!res.ok) {

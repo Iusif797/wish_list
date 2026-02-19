@@ -83,16 +83,19 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
     if not code:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Missing authorization code")
     try:
+        print(f"DEBUG: OAuth exchange started for client_id: {client_id}")
+        print(f"DEBUG: Redirect URI: {redirect_uri}")
         client = AsyncOAuth2Client(
             client_id=client_id,
             client_secret=settings.google_client_secret,
             redirect_uri=redirect_uri,
+            token_endpoint_auth_method='client_secret_post',
         )
         token = await client.fetch_token(
             "https://oauth2.googleapis.com/token",
             code=code,
-            redirect_uri=redirect_uri,
         )
+        print(f"DEBUG: Token exchange successful")
         resp = await client.get("https://www.googleapis.com/oauth2/v3/userinfo", token=token)
         user_info = resp.json()
         email = user_info.get("email")
@@ -125,4 +128,5 @@ async def oauth_google_callback(data: OAuthGoogleCallback, db: AsyncSession = De
             error_detail = f"{getattr(e, 'error')}: {getattr(e, 'description', '')}"
         elif str(e):
             error_detail = str(e)
+        print(f"DEBUG: OAuth error detail: {error_detail}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error_detail[:500])

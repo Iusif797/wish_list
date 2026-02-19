@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
+import { GoogleAuthButton } from "./GoogleAuthButton";
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -43,12 +44,19 @@ export function Header() {
               </button>
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-5 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all duration-200"
-            >
-              Войти
-            </Link>
+            <div className="flex items-center gap-2">
+              <GoogleAuthButton
+                label="Войти через Google"
+                compact
+                className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200 flex items-center justify-center"
+              />
+              <Link
+                href="/login"
+                className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-5 py-2.5 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all duration-200"
+              >
+                Войти
+              </Link>
+            </div>
           )}
         </div>
       </div>

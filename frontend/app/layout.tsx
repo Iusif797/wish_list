@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
 import { ThemeProvider } from "@/lib/theme";
+import { OAuthPrefetcher } from "@/components/OAuthPrefetcher";
 
 export const metadata: Metadata = {
   title: "Список желаний",
@@ -24,7 +25,10 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased min-h-screen bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(26,173,100,0.08),#f8fafc)] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(26,173,100,0.06),#020617)] text-slate-900 dark:text-slate-100 transition-colors duration-300">
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <OAuthPrefetcher />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

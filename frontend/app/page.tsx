@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LandingAuthButtons } from "@/components/LandingAuthButtons";
 
 export default function HomePage() {
   return (
@@ -16,20 +16,13 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-primary-500/30 rounded-3xl blur-2xl scale-150" />
           <img src="/logo.png" alt="Список желаний" className="relative w-20 h-20 rounded-2xl shadow-glow-xl ring-2 ring-white/20 dark:ring-white/10" />
         </div>
-        <h1 className="text-5xl sm:text-7xl font-extrabold text-slate-900 dark:text-white mb-5 tracking-tight">
+        <h1 className="hero-title text-5xl sm:text-7xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">
           Список <span className="gradient-text">желаний</span>
         </h1>
-        <p className="text-slate-600 dark:text-slate-300 max-w-xl mb-12 text-lg sm:text-xl leading-relaxed">
+        <p className="hero-desc text-slate-700 dark:text-slate-200 max-w-xl mb-12 text-lg sm:text-xl leading-relaxed font-medium">
           Создавайте списки желаний, делитесь с друзьями, пусть они бронируют подарки или скидываются.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link href="/login" className="btn-primary text-center min-w-[180px]">
-            Войти
-          </Link>
-          <Link href="/register" className="btn-secondary text-center min-w-[180px]">
-            Создать аккаунт
-          </Link>
-        </div>
+        <LandingAuthButtons />
         <p className="mt-12 sm:mt-16 text-sm text-slate-500 dark:text-slate-400">
           Есть ссылка? Введите её в адресную строку, чтобы открыть общий список.
         </p>

@@ -37,8 +37,29 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 via-emerald-500 to-primary-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-700 via-emerald-700 to-primary-600 bg-clip-text text-transparent;
   }
+
+  .dark .gradient-text {
+    @apply from-primary-300 via-emerald-300 to-primary-400;
+  }
+
+  .hero-title {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .hero-title {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 48px rgba(26, 173, 100, 0.12);
+  }
+
+  .hero-title .gradient-text {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+  }
+
+  .dark .hero-title .gradient-text {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 16px rgba(52, 211, 153, 0.2));
+  }
+
 
   .btn-primary {
     @apply px-6 py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-2xl

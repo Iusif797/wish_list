@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { GoogleAuthButton } from "@/components/GoogleAuthButton";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { api, getApiUrl, getWsUrl, getAnonymousToken } from "@/lib/api";
@@ -69,9 +70,16 @@ export default function PublicWishlistPage() {
             <img src="/logo.png" alt="Список желаний" className="w-8 h-8 rounded-xl shadow-glow" />
             <span className="text-lg font-bold text-slate-900 dark:text-white">Список желаний</span>
           </Link>
-          <Link href="/login" className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all">
-            Войти
-          </Link>
+          <div className="flex items-center gap-2">
+            <GoogleAuthButton
+              label="Войти через Google"
+              compact
+              className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-center"
+            />
+            <Link href="/login" className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 px-4 py-2 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all">
+              Войти
+            </Link>
+          </div>
         </div>
       </header>
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">

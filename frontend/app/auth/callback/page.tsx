@@ -38,7 +38,8 @@ function AuthCallbackContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6">
+        <span className="spinner-premium" />
         <p className="text-slate-600 dark:text-slate-400">Вход...</p>
       </div>
     );
@@ -59,7 +60,8 @@ function AuthCallbackContent() {
 export default function AuthCallbackPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6">
+        <span className="spinner-premium" />
         <p className="text-slate-600 dark:text-slate-400">Вход...</p>
       </div>
     }>

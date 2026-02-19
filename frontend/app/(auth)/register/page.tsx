@@ -105,7 +105,7 @@ export default function RegisterPage() {
             disabled={loading}
             className="mt-6 w-full py-3.5 bg-gradient-to-r from-primary-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-emerald-600 disabled:opacity-50 transition-all shadow-glow hover:shadow-glow-lg flex items-center justify-center gap-2"
           >
-            {loading ? <span className="spinner border-white/30 border-t-white" /> : "Создать аккаунт"}
+            {loading ? <span className="spinner-premium spinner-premium-sm spinner-premium-light" /> : "Создать аккаунт"}
           </button>
           <div className="mt-4">
             {oauthLoading ? (

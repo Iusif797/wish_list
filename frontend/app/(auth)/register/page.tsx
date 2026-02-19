@@ -101,7 +101,7 @@ export default function RegisterPage() {
             {loading ? <span className="spinner-premium spinner-premium-sm spinner-premium-light" /> : "Создать аккаунт"}
           </button>
           <div className="mt-4">
-            <GoogleAuthButton label="Зарегистрироваться через Google" fallbackLabel="Зарегистрироваться через Google" className="w-full py-3.5 btn-secondary flex items-center justify-center gap-2" />
+            <GoogleAuthButton label="Зарегистрироваться через Google" fallbackLabel="Зарегистрироваться через Google" />
           </div>
           <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
             Уже есть аккаунт?{" "}

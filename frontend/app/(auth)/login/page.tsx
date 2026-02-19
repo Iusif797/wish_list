@@ -89,7 +89,7 @@ export default function LoginPage() {
             {loading ? <span className="spinner-premium spinner-premium-sm spinner-premium-light" /> : "Войти"}
           </button>
           <div className="mt-4">
-            <GoogleAuthButton label="Войти через Google" className="w-full btn-secondary flex items-center justify-center gap-2" />
+            <GoogleAuthButton label="Войти через Google" />
           </div>
           <p className="mt-5 text-center text-sm text-slate-500 dark:text-slate-400">
             Нет аккаунта?{" "}

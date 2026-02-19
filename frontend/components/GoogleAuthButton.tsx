@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useOAuthUrl } from "@/lib/oauth";
 
 const GoogleIcon = () => (
-  <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+  <svg className="w-5 h-5 shrink-0 relative z-10" viewBox="0 0 24 24">
     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -19,32 +19,69 @@ interface GoogleAuthButtonProps {
   compact?: boolean;
 }
 
-export function GoogleAuthButton({ label, fallbackLabel = "Войти через Google", className = "w-full btn-secondary flex items-center justify-center gap-2", compact = false }: GoogleAuthButtonProps) {
+export function GoogleAuthButton({ label, fallbackLabel = "Войти через Google", className = "", compact = false }: GoogleAuthButtonProps) {
   const { oauthUrl, loading } = useOAuthUrl();
+
+  if (compact) {
+    const compactClass = className || "p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-200 flex items-center justify-center";
+
+    if (loading && !oauthUrl) {
+      return (
+        <div className={compactClass} title={label}>
+          <GoogleIcon />
+        </div>
+      );
+    }
+
+    if (oauthUrl) {
+      return (
+        <a href={oauthUrl} className={compactClass} title={label}>
+          <GoogleIcon />
+        </a>
+      );
+    }
+
+    return (
+      <Link href="/login" className={compactClass} title={fallbackLabel}>
+        <GoogleIcon />
+      </Link>
+    );
+  }
+
+  const btnClass = `google-auth-btn ${className}`.trim();
 
   if (loading && !oauthUrl) {
     return (
-      <div className={`${className} opacity-90`}>
-        <GoogleIcon />
-        {!compact && <span>{label}</span>}
-        <span className="spinner border-slate-300 dark:border-slate-600 border-t-slate-600 dark:border-t-slate-400 w-4 h-4 ml-1" />
+      <div className={btnClass}>
+        <span className="google-auth-btn__glow" />
+        <span className="google-auth-btn__content">
+          <GoogleIcon />
+          <span>{label}</span>
+          <span className="spinner-premium spinner-premium-sm spinner-premium-light" />
+        </span>
       </div>
     );
   }
 
   if (oauthUrl) {
     return (
-      <a href={oauthUrl} className={className} title={label}>
-        <GoogleIcon />
-        {!compact && <span>{label}</span>}
+      <a href={oauthUrl} className={btnClass} title={label}>
+        <span className="google-auth-btn__glow" />
+        <span className="google-auth-btn__content">
+          <GoogleIcon />
+          <span>{label}</span>
+        </span>
       </a>
     );
   }
 
   return (
-    <Link href="/login" className={className} title={fallbackLabel}>
-      <GoogleIcon />
-      {!compact && <span>{fallbackLabel}</span>}
+    <Link href="/login" className={btnClass} title={fallbackLabel}>
+      <span className="google-auth-btn__glow" />
+      <span className="google-auth-btn__content">
+        <GoogleIcon />
+        <span>{fallbackLabel}</span>
+      </span>
     </Link>
   );
 }

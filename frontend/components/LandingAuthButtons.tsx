@@ -16,7 +16,6 @@ export function LandingAuthButtons() {
       </div>
       <GoogleAuthButton
         label="Войти через Google"
-        className="min-w-[180px] btn-secondary flex items-center justify-center gap-2 mx-auto sm:mx-0"
       />
     </div>
   );

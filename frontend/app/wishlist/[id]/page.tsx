@@ -100,7 +100,7 @@ export default function WishlistPage() {
             <div className="mb-8">
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{wishlist.name}</h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">{wishlist.occasion}</p>
-              <div className="mt-5 p-5 bg-gradient-to-r from-primary-500/10 to-emerald-500/10 dark:from-primary-950/20 dark:to-emerald-950/20 rounded-2xl border border-primary-200/60 dark:border-primary-800/40 shadow-soft">
+              <div className="mt-5 p-5 bg-gradient-to-r from-primary-500/10 to-indigo-500/10 dark:from-primary-950/20 dark:to-indigo-950/20 rounded-2xl border border-primary-200/60 dark:border-primary-800/40 shadow-soft">
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Ссылка для друзей</p>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
@@ -170,7 +170,7 @@ export default function WishlistPage() {
                         <div className="mt-3">
                           <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-gradient-to-r from-primary-500 to-emerald-400 rounded-full transition-all duration-500"
+                              className="h-full bg-gradient-to-r from-primary-500 to-indigo-400 rounded-full transition-all duration-500"
                               style={{ width: `${Math.min(item.progress * 100, 100)}%` }}
                             />
                           </div>
@@ -180,7 +180,7 @@ export default function WishlistPage() {
                         </div>
                       )}
                       {item.reserved && (
-                        <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold rounded-lg">
+                        <span className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400 text-xs font-semibold rounded-lg">
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>
                           Забронировано
                         </span>

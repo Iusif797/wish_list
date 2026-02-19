@@ -37,11 +37,11 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-700 via-emerald-700 to-primary-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-700 via-cyan-600 to-indigo-600 bg-clip-text text-transparent;
   }
 
   .dark .gradient-text {
-    @apply from-primary-300 via-emerald-300 to-primary-400;
+    @apply from-primary-300 via-cyan-300 to-indigo-400;
   }
 
   .hero-title {
@@ -81,14 +81,14 @@
     text-decoration: none;
     isolation: isolate;
     background:
-      linear-gradient(135deg, #1aad64, #10b981, #059669) padding-box,
-      linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #6366f1) border-box;
+      linear-gradient(135deg, #7c3aed, #8b5cf6, #6d28d9) padding-box,
+      linear-gradient(135deg, #8b5cf6, #06b6d4, #6366f1, #8b5cf6) border-box;
     border: 1.5px solid transparent;
     background-size: 200% 200%;
     animation: gradientShift 4s ease infinite;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow:
-      0 0 16px -4px rgba(16, 185, 129, 0.4),
+      0 0 16px -4px rgba(139, 92, 246, 0.4),
       0 2px 8px -2px rgba(0, 0, 0, 0.15),
       0 4px 16px -4px rgba(0, 0, 0, 0.1);
   }
@@ -98,7 +98,7 @@
     position: absolute;
     inset: -1.5px;
     border-radius: 17px;
-    background: linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4, #6366f1, #8b5cf6);
     background-size: 300% 300%;
     animation: gradientShift 4s ease infinite;
     z-index: -2;
@@ -111,7 +111,7 @@
     position: absolute;
     inset: 1.5px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #1aad64, #10b981, #059669);
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6, #6d28d9);
     background-size: 200% 200%;
     animation: gradientShift 4s ease infinite;
     z-index: -1;
@@ -122,7 +122,7 @@
     box-shadow:
       0 0 24px -2px rgba(139, 92, 246, 0.35),
       0 0 24px -4px rgba(6, 182, 212, 0.3),
-      0 0 40px -4px rgba(16, 185, 129, 0.3),
+      0 0 40px -4px rgba(99, 102, 241, 0.3),
       0 4px 16px -2px rgba(0, 0, 0, 0.15),
       0 8px 32px -4px rgba(0, 0, 0, 0.1);
   }
@@ -364,8 +364,8 @@
   width: 100%;
   height: 100%;
   border: 3px solid transparent;
-  border-top-color: #1aad64;
-  border-right-color: #10b981;
+  border-top-color: #8b5cf6;
+  border-right-color: #7c3aed;
   animation: spin-slow 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
 
@@ -373,8 +373,8 @@
   width: 70%;
   height: 70%;
   border: 3px solid transparent;
-  border-bottom-color: #34d399;
-  border-left-color: #40c77f;
+  border-bottom-color: #a78bfa;
+  border-left-color: #818cf8;
   animation: spin-reverse 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
 
@@ -447,7 +447,7 @@
   background:
     linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))
       padding-box,
-    linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #6366f1) border-box;
+    linear-gradient(135deg, #8b5cf6, #06b6d4, #818cf8, #6366f1) border-box;
   border: 1.5px solid transparent;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow:
@@ -465,7 +465,7 @@
     135deg,
     #8b5cf6,
     #06b6d4,
-    #10b981,
+    #818cf8,
     #6366f1,
     #8b5cf6
   );
@@ -512,7 +512,7 @@
     rgba(139, 92, 246, 0.1) 15%,
     rgba(6, 182, 212, 0.18) 30%,
     rgba(255, 255, 255, 0.3) 50%,
-    rgba(16, 185, 129, 0.18) 70%,
+    rgba(99, 102, 241, 0.18) 70%,
     rgba(99, 102, 241, 0.1) 85%,
     transparent 100%
   );
@@ -580,7 +580,7 @@
           rgba(226, 232, 240, 0.98)
         )
         padding-box,
-      linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #6366f1) border-box;
+      linear-gradient(135deg, #8b5cf6, #06b6d4, #818cf8, #6366f1) border-box;
     box-shadow:
       0 2px 8px -2px rgba(0, 0, 0, 0.1),
       0 4px 16px -4px rgba(0, 0, 0, 0.08);
@@ -605,7 +605,7 @@
       rgba(139, 92, 246, 0.06) 15%,
       rgba(6, 182, 212, 0.1) 30%,
       rgba(255, 255, 255, 0.55) 50%,
-      rgba(16, 185, 129, 0.1) 70%,
+      rgba(99, 102, 241, 0.1) 70%,
       rgba(99, 102, 241, 0.06) 85%,
       transparent 100%
     );
@@ -632,7 +632,7 @@
   background:
     linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))
       padding-box,
-    linear-gradient(135deg, #8b5cf6, #06b6d4, #10b981, #6366f1) border-box;
+    linear-gradient(135deg, #8b5cf6, #06b6d4, #818cf8, #6366f1) border-box;
 }
 
 :is(.dark) .google-auth-btn::after {

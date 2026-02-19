@@ -7,9 +7,9 @@ export default function HomePage() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{ backgroundImage: "url(/wishlist-bg.png)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-primary-50/30 to-emerald-100/60 dark:from-slate-950/85 dark:via-primary-950/40 dark:to-slate-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-primary-50/30 to-indigo-100/60 dark:from-slate-950/85 dark:via-primary-950/40 dark:to-slate-950" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary-400/20 rounded-full blur-[100px] animate-float" />
-      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-emerald-400/15 rounded-full blur-[80px] animate-float" style={{ animationDelay: "-3s" }} />
+      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-indigo-400/15 rounded-full blur-[80px] animate-float" style={{ animationDelay: "-3s" }} />
       <div className="absolute top-1/3 left-1/4 w-[200px] h-[200px] bg-primary-300/10 rounded-full blur-[60px] animate-float" style={{ animationDelay: "-1.5s" }} />
       <div className="relative z-10 flex flex-col items-center animate-fade-in text-center">
         <div className="relative mb-8">

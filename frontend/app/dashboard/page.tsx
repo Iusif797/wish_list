@@ -64,7 +64,7 @@ export default function DashboardPage() {
         )}
         {wishlists && wishlists.length === 0 && (
           <div className="glass-card rounded-3xl p-8 sm:p-16 text-center animate-slide-up border border-slate-200/80 dark:border-slate-700/60 shadow-card dark:shadow-card-dark">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-100 to-emerald-100 dark:from-primary-950/50 dark:to-emerald-950/30 flex items-center justify-center mx-auto mb-6 shadow-soft">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-100 to-indigo-100 dark:from-primary-950/50 dark:to-indigo-950/30 flex items-center justify-center mx-auto mb-6 shadow-soft">
               <svg className="w-8 h-8 text-primary-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1 0 9.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1 1 14.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" /></svg>
             </div>
             <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">У вас пока нет списков подарков.</p>
@@ -86,7 +86,7 @@ export default function DashboardPage() {
                 style={{ animationDelay: `${i * 80}ms`, animationFillMode: "both" }}
               >
                 <div className="flex items-start justify-between">
-                  <Link href={`/wishlist/${w.id}`} className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-50 to-emerald-50 dark:from-primary-950/30 dark:to-emerald-950/30 flex items-center justify-center mb-3 group-hover:from-primary-100 group-hover:to-emerald-100 dark:group-hover:from-primary-900/30 dark:group-hover:to-emerald-900/30 transition-colors">
+                  <Link href={`/wishlist/${w.id}`} className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-50 to-indigo-50 dark:from-primary-950/30 dark:to-indigo-950/30 flex items-center justify-center mb-3 group-hover:from-primary-100 group-hover:to-indigo-100 dark:group-hover:from-primary-900/30 dark:group-hover:to-indigo-900/30 transition-colors">
                     <span className="text-lg">🎁</span>
                   </Link>
                   <div className="flex items-center gap-2">

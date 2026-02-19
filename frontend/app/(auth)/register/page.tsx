@@ -36,7 +36,7 @@ export default function RegisterPage() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{ backgroundImage: "url(/wishlist-bg.png)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-primary-50/30 to-emerald-100/60 dark:from-slate-950/85 dark:via-primary-950/40 dark:to-slate-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-primary-50/30 to-indigo-100/60 dark:from-slate-950/85 dark:via-primary-950/40 dark:to-slate-950" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-primary-400/15 rounded-full blur-[80px]" />
       <div className="relative z-10 w-full max-w-md animate-slide-up">
         <Link href="/" className="flex items-center justify-center gap-2.5 mb-8 group">
